@@ -1,16 +1,1 @@
-{
-  "script": {
-    "make:controller": "node ./scripts/controller_script.js",
-    "make:resource": "node ./scripts/resource_script.js",
-    "make:model": "node ./scripts/model_script.js",
-    "make:provider": "node ./scripts/provider_script.js",
-    "make:middleware": "node ./scripts/middleware_script.js",
-    "make:command": "node ./scripts/command_script.js"
-  },
-  "controllers": [],
-  "providers": [],
-  "models": [],
-  "resources": [],
-  "middlewares": [],
-  "commands": []
-}
+{"script":{"make:controller":"node ./scripts/controller_script.js","make:resource":"node ./scripts/resource_script.js","make:model":"node ./scripts/model_script.js","make:provider":"node ./scripts/provider_script.js","make:middleware":"node ./scripts/middleware_script.js","make:command":"node ./scripts/command_script.js"},"controllers":["UserController"],"providers":["UserProvider"],"models":["User"],"resources":["UserResource"],"middlewares":[],"commands":[]}

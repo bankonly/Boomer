@@ -37,6 +37,7 @@ try {
             if (err) console.log(err);
             else {
               data = data.replace(/ControllerName/g, controllerName);
+              data = data.replace(/ProviderName/g, fileName);
               fs.writeFile(`${WRITEPATH}${fileName}.${FILETYPE}`, data, err => {
                 if (err) console.log(err);
                 console.log(`${METHOD} ${fileName} CREATED`);

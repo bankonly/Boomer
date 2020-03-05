@@ -1,5 +1,3 @@
-const ControllerName = require('../Controllers/ControllerName');
-
 class ProviderName {
     // DO STAFF HERE
 }

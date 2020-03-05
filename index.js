@@ -2,6 +2,7 @@ const Express = require("express");
 const app = Express();
 
 require("./app_config/start_up_config"); // load ENV variables
+require("./app_config/app")(app); // Load default Config
 
 const { sequelize } = require("./app_config/database"); // Database config
 
