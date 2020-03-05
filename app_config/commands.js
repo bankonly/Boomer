@@ -14,13 +14,17 @@ const addPropertyToNpmCommand = ({
     const object = JSON.parse(data);
 
     if (method == "controllers") {
-      let isPushed = object.controllers.push(propertyName); // Add Controller name
+      object.controllers.push(propertyName); // Add Controller name
     } else if (method == "providers") {
-      let isPushed = object.providers.push(propertyName); // Add Controller name
+      object.providers.push(propertyName); // Add Controller name
     } else if (method == "models") {
-      let isPushed = object.models.push(propertyName); // Add Controller name
+      object.models.push(propertyName); // Add Controller name
     } else if (method == "resources") {
-      let isPushed = object.resources.push(propertyName); // Add Controller name
+      object.resources.push(propertyName); // Add Controller name
+    } else if (method == "middlewares") {
+      object.middlewares.push(propertyName); // Add Controller name
+    } else if (method == "commands") {
+      object.commands.push(propertyName); // Add Controller name
     }
 
     fs.writeFile(path, JSON.stringify(object), "utf8", err => {

@@ -10,3 +10,9 @@
 
 - Generate Resource
     - npm run make:resource {resource:controllerName}
+
+- Generate Middleware
+    - npm run make:middleware {middlewareName}
+
+- Generate Command
+    - npm run make:command {commandName}
