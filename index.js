@@ -1,11 +1,14 @@
 const Express = require("express");
 const app = Express();
 
-// app_config Load
 require("./app_config/start_up_config"); // load ENV variables
 
-// ROUTE IMPORTED = webApi
-require("./routes/webApi")(app);
+const { sequelize } = require("./app_config/database"); // Database config
 
+require("./routes/webApi")(app); // ROUTE IMPORTED = webApi
 
-app.listen(process.env.APP_PORT,(e)=>console.log("CONNECTED TO ",process.env.APP_PORT))
+sequelize.sync(); // Create table if not exist
+
+app.listen(process.env.APP_PORT, e =>
+  console.log("CONNECTED TO ", process.env.APP_PORT)
+);

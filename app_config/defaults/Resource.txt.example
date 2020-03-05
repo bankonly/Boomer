@@ -1,0 +1,10 @@
+const router = require("express").Router();
+const ControllerName = require("../Controllers/ControllerName");
+
+router.get("/", (...args) => ControllerName(...args).get());
+router.post("/", (...args) => ControllerName(...args).post());
+router.get("/:id", (...args) => ControllerName(...args).getWithParam());
+router.put("/:id", (...args) => ControllerName(...args).update());
+router.delete("/:id", (...args) => ControllerName(...args).delete());
+
+module.exports = router;

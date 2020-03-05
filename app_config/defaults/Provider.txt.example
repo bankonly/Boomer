@@ -1,0 +1,7 @@
+const ControllerName = require('../Controllers/ControllerName');
+
+class ProviderName {
+    // DO STAFF HERE
+}
+
+module.exports = new ProviderName();

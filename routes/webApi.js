@@ -1,3 +1,3 @@
 module.exports = app => {
-  app.use("/web", require("../apps/Resources/ProductType"));
+  app.use("/user", require("../apps/Resources/UserResource"));
 };
