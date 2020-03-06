@@ -12,30 +12,30 @@ class ControllerName {
 
   // @GET REQUEST
   get() {
-    this.send.success("GET REQUEST");
+    this.send.success({});
   }
 
   // @POST REQUEST
   post() {
-    this.send.success("POST REQUEST");
+    this.send.success({});
   }
 
   // @GET/{id} REQUEST
   getWithParam() {
     const id = this.params.id;
-    this.send.success(`GET/${id} REQUEST`);
+    this.send.success({});
   }
 
   // @PUT/{id} REQUEST
   update() {
     const id = this.params.id;
-    this.send.success(`PUT/${id} REQUEST`);
+    this.send.success({});
   }
 
   // @DELETE/{id} REQUEST
   delete() {
     const id = this.params.id;
-    this.send.success(`DELETE/${id} REQUEST`);
+    this.send.success({});
   }
 }
 

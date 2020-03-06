@@ -2,11 +2,40 @@ const { Sequelize, sequelize } = require("../../app_config/database");
 const Model = Sequelize.Model;
 
 class User extends Model {
-  async findByUserId({ userId }) {
+  async findByUserId(userId) {
     return User.findByPk(userId);
   }
-  async fetchAll({ limit = 300 }) {
-    return User.findAll({ limit: limit });
+
+  removeObjecj(object) {
+    delete object.role;
+    delete object.password;
+    delete object.createdAt;
+    delete object.updatedAt;
+    delete object.deletedAt;
+    return object;
+  }
+
+  async findByPhoneNumber(phoneNumber) {
+    return User.findOne({
+      where: { phoneNumber: phoneNumber }
+    });
+  }
+
+  tokenObject(userObj) {
+    return {
+      userId: userObj.userId,
+      phoneNumber: userObj.phoneNumber
+    };
+  }
+
+  async findByEmail(email) {
+    return User.findOne({
+      where: { email: email }
+    });
+  }
+
+  async fetchAll({ remove = ["password", "role"] }) {
+    return User.findAll({ attributes: { exclude: remove } });
   }
 }
 
@@ -48,6 +77,10 @@ User.init(
       type: Sequelize.STRING(40),
       allowNull: true
     },
+    password: {
+      type: Sequelize.STRING(100),
+      allowNull: false
+    },
     createdAt: {
       type: Sequelize.DATE,
       allowNull: true,
@@ -60,8 +93,7 @@ User.init(
     },
     deletedAt: {
       type: Sequelize.DATE,
-      allowNull: true,
-      defaultValue: Sequelize.fn("NOW")
+      allowNull: true
     }
   },
   { sequelize, modelName: "users" }
