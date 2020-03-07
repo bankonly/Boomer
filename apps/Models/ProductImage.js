@@ -31,8 +31,7 @@ ProductImage.init(
     },
     deletedAt: {
       type: Sequelize.DATE,
-      allowNull: true,
-      defaultValue: Sequelize.fn("NOW")
+      allowNull: true
     }
   },
   { sequelize, modelName: "productImages" }

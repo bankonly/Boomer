@@ -51,8 +51,21 @@ class UserController {
 
   // @POST REQUEST
   async post() {
-    const isRegistered = await UserProvider.register(this.body);
-    this.send.success(isRegistered);
+    try {
+      const body = {
+        phoneNumber: this.body.phoneNumber,
+        password: this.body.password,
+        confirmPassword: this.body.confirmPassword
+      };
+
+      const isValidate = UserProvider.validateResgisterObj(body);
+      if (isValidate.code !== 200) return this.send.badRequest(isValidate);
+
+      const isRegistered = await UserProvider.register(body);
+      this.send.success(isRegistered);
+    } catch (err) {
+      this.send.error({ msg: err.message });
+    }
   }
 
   // @GET/{id} REQUEST

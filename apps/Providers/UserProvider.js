@@ -6,40 +6,33 @@ const Jwt = require("../Helpers/Jwt");
 class UserProvider {
   validateResgisterObj(registerData) {
     if (!registerData.phoneNumber)
-      return Res.badRequest({
-        data: registerData.phoneNumber,
-        msg: "phoneNumber is requried"
-      });
+      return Res.badRequest({ msg: "phoneNumber is requried" });
     if (!registerData.password)
-      return Res.badRequest({ data: registerData.password });
+      return Res.badRequest({ msg: "password is requried" });
     if (!registerData.confirmPassword)
-      return Res.badRequest({ data: registerData.confirmPassword });
+      return Res.badRequest({ msg: "confirmPassword is requried" });
     if (registerData.password !== registerData.confirmPassword)
       return Res.badRequest({ msg: "Password is not matched" });
     return Res.success({});
   }
 
-  async register(userData) {
-    const validate = this.validateResgisterObj(userData);
-    if (validate.code !== 200) {
-      return validate;
-    }
-
+  async register({ phoneNumber, password, confirmPassword }) {
     try {
-      const isPhoneNumber = await UserClass.findByPhoneNumber(
-        userData.phoneNumber
-      );
+      const isPhoneNumber = await UserClass.findByPhoneNumber(phoneNumber);
 
       // Check if PhoneNumber is already exist in database
       if (isPhoneNumber !== null) {
-        return Res.duplicated({ data: userData.phoneNumber });
+        return Res.duplicated({ data: phoneNumber });
       }
 
-      const hashPwd = await Bcrypt.hashPassword(userData.password);
+      const hashPwd = await Bcrypt.hashPassword(password);
       if (!hashPwd) return Res.error({});
 
-      userData.password = hashPwd;
-      const createUser = await User.create(userData);
+      const insertData = {
+        phoneNumber: phoneNumber,
+        password: hashPwd
+      };
+      const createUser = await User.create(insertData);
       if (createUser) {
         const token = Jwt.jwtMethod(UserClass.tokenObject(createUser));
 

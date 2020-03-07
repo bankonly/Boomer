@@ -10,17 +10,11 @@
   "controllers": [
     "UserController",
     "ProductController",
-    "ProductImageController",
-    "ExchangeRateController"
+    "ProductImageController"
   ],
   "providers": ["UserProvider"],
-  "models": ["User", "Product", "ProductImage", "ExangeRateModel"],
-  "resources": [
-    "UserResource",
-    "ProductResource",
-    "ProductImageResource",
-    "ExcangeRateResource"
-  ],
+  "models": ["User", "Product", "ProductImage"],
+  "resources": ["UserResource", "ProductResource", "ProductImageResource"],
   "middlewares": ["ApiAuthentication"],
   "commands": []
 }

@@ -12,7 +12,7 @@ Product.init(
       allowNull: false
     },
     proPrice: {
-      type: Sequelize.DECIMAL(10,2),
+      type: Sequelize.DECIMAL(10, 2),
       allowNull: false
     },
     proTypeId: {
@@ -43,8 +43,7 @@ Product.init(
     },
     deletedAt: {
       type: Sequelize.DATE,
-      allowNull: true,
-      defaultValue: Sequelize.fn("NOW")
+      allowNull: true
     }
   },
   { sequelize, modelName: "products" }
