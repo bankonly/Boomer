@@ -2,7 +2,7 @@ class SimpleResponseController {
   // duplicated
   duplicated({ data = {}, msg = "duplicated", status = false, code = 409 }) {
     return {
-      msg: data + " " + msg,
+      msg: msg,
       status: status,
       code: code,
       data: data
@@ -22,7 +22,7 @@ class SimpleResponseController {
   // deleted
   deleted({ data = {}, msg = "deleted success", status = true, code = 200 }) {
     return {
-      msg: data + " " + msg,
+      msg: msg,
       status: status,
       code: code,
       data: data
@@ -32,7 +32,7 @@ class SimpleResponseController {
   // updated
   updated({ data = {}, msg = "updated success", status = true, code = 200 }) {
     return {
-      msg: data + " " + msg,
+      msg: msg,
       status: status,
       code: code,
       data: data
@@ -42,7 +42,7 @@ class SimpleResponseController {
   // created
   created({ data = {}, msg = "created success", status = true, code = 200 }) {
     return {
-      msg: data + " " + msg,
+      msg: msg,
       status: status,
       code: code,
       data: data
@@ -72,7 +72,7 @@ class SimpleResponseController {
   // notFound
   notFound({ data = {}, msg = "notFound", status = false, code = 404 }) {
     return {
-      msg: data + " " + msg,
+      msg: msg,
       status: status,
       code: code,
       data: data

@@ -1,3 +1,5 @@
+const Res = require("../Controllers/DefaultResponseController");
+
 class ProviderName {
     // DO STAFF HERE
 }

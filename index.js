@@ -8,7 +8,7 @@ const { sequelize } = require("./app_config/database"); // Database config
 
 require("./routes/webApi")(app); // ROUTE IMPORTED = webApi
 
-// sequelize.sync(); // Create table if not exist
+sequelize.sync(); // Create table if not exist
 
 app.listen(process.env.APP_PORT, e =>
   console.log("CONNECTED TO ", process.env.APP_PORT)
