@@ -29,7 +29,7 @@ const addPropertyToNpmCommand = ({
 
     fs.writeFile(path, JSON.stringify(object), "utf8", err => {
       if (err) console.log(err);
-      else console.log(`data pushed`);
+      else console.log(`${propertyName} Added`);
     });
     return;
   });

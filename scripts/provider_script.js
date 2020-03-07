@@ -59,15 +59,17 @@ try {
       CREATE();
       return;
     }
-    providers.forEach((value, index) => {
-      if (value == fileName) {
+    let create = true;
+    for (var i = 0; i <= providers.length; i++) {
+      if (providers[i] == fileName) {
         console.log("this " + fileName + " " + METHOD + "  already exist");
-        return;
-      } else {
-        CREATE();
+        create = false;
         return;
       }
-    });
+    }
+    if (create) {
+      CREATE();
+    }
   });
 } catch (error) {
   console.log(error.message);

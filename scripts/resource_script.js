@@ -47,7 +47,9 @@ try {
     }
     controllers.forEach((value, index) => {
       if (value !== controllerName) {
-        console.log("this " + controllerName + " " + METHOD + " does not exist");
+        console.log(
+          "this " + controllerName + " " + METHOD + " does not exist"
+        );
         return;
       } else {
         readJsonCmd((err, data) => {
@@ -56,14 +58,17 @@ try {
             CREATE();
             return;
           }
-          resources.forEach((value, index) => {
-            if (value != fileName) {
-              CREATE();
+          let create = true;
+          for (var i = 0; i <= resources.length; i++) {
+            if (resources[i] == fileName) {
+              console.log("this " + fileName + " already exist");
+              create = false;
               return;
             }
-            console.log("this " + fileName + " already exist");
-            return false;
-          });
+          }
+          if (create) {
+            CREATE();
+          }
         });
         return;
       }

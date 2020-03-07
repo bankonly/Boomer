@@ -7,8 +7,8 @@ class UserController {
     this.res = res;
     this.next = next;
     this.params = req.params;
-    this.body = req.body;
     this.send = Res(res);
+    this.body = req.body;
   }
 
   // @GET REQUEST

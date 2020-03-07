@@ -44,15 +44,17 @@ try {
       CREATE();
       return;
     }
-    models.forEach((value, index) => {
-      if (value == fileName) {
+    let create = true;
+    for (var i = 0; i <= models.length; i++) {
+      if (models[i] == fileName) {
         console.log("this " + fileName + " " + METHOD + "  already exist");
-        return;
-      } else {
-        CREATE();
+        create = false;
         return;
       }
-    });
+    }
+    if (create) {
+      CREATE();
+    }
   });
 } catch (error) {
   console.log(error.message);

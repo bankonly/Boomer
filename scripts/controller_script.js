@@ -34,16 +34,17 @@ readJsonCmd((err, data) => {
     CREATE();
     return;
   } else {
-    controllers.forEach((value, index) => {
-      if (value == fileName) {
+    let create = true;
+    for (var i = 0; i <= controllers.length; i++) {
+      if (controllers[i] == fileName) {
         console.log("this " + fileName + " is already exist");
-        return;
-      } else {
-        addPropertyToNpmCommand({ propertyName: fileName, method: METHOD });
-
-        CREATE();
+        create = false;
         return;
       }
-    });
+    }
+    if (create) {
+      CREATE();
+      return;
+    }
   }
 });

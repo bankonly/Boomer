@@ -33,14 +33,18 @@ readJsonCmd((err, data) => {
     CREATE();
     return;
   } else {
-    commands.forEach((value, index) => {
-      if (value == fileName) {
+    let create = true;
+    for (var i = 0; i <= commands.length; i++) {
+      if (commands[i] == fileName) {
         console.log("this " + fileName + " is already exist");
-        return;
-      } else {
-        CREATE();
+        create = false;
         return;
       }
-    });
+    }
+
+    if (create) {
+      CREATE();
+      return;
+    }
   }
 });
