@@ -1,7 +1,21 @@
 const { Sequelize, sequelize } = require("../../app_config/database");
 const Model = Sequelize.Model;
 
-class Product extends Model {}
+class Product extends Model {
+  async findByStoreId(storeId, { exclude = [] }) {
+    return await Product.findOne({
+      where: { storeId: storeId },
+      attributes: { exclude: exclude }
+    });
+  }
+
+  async findByProTypeId(proTypeId, { exclude = [] }) {
+    return await Product.findOne({
+      where: { proTypeId: proTypeId },
+      attributes: { exclude: exclude }
+    });
+  }
+}
 
 Product.init(
   {

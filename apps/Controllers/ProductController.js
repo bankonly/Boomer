@@ -1,5 +1,4 @@
 const Res = require("./ResponseController");
-const { Product, ProductClass } = require("../Models/Product");
 
 class ProductController {
   constructor(req, res, next) {
@@ -13,30 +12,50 @@ class ProductController {
 
   // @GET REQUEST
   get() {
-    this.send.success("GET REQUEST");
+    try {
+      this.send.success({});
+    } catch (err) {
+      this.send.error({ msg: err.message });
+    }
   }
 
   // @POST REQUEST
   post() {
-    this.send.success("POST REQUEST");
+    try {
+      this.send.success({});
+    } catch (err) {
+      this.send.error({ msg: err.message });
+    }
   }
 
   // @GET/{id} REQUEST
   getWithParam() {
     const id = this.params.id;
-    this.send.success(`GET/${id} REQUEST`);
+    try {
+      this.send.success({});
+    } catch (err) {
+      this.send.error({ msg: err.message });
+    }
   }
 
   // @PUT/{id} REQUEST
   update() {
     const id = this.params.id;
-    this.send.success(`PUT/${id} REQUEST`);
+    try {
+      this.send.success({});
+    } catch (err) {
+      this.send.error({ msg: err.message });
+    }
   }
 
   // @DELETE/{id} REQUEST
   delete() {
     const id = this.params.id;
-    this.send.success(`DELETE/${id} REQUEST`);
+    try {
+      this.send.success({});
+    } catch (err) {
+      this.send.error({ msg: err.message });
+    }
   }
 }
 

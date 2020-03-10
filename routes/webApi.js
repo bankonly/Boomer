@@ -3,7 +3,4 @@ module.exports = app => {
   app.use("/exchangeRate", require("../apps/Resources/ExchangeRateResource"));
   app.use("/store", require("../apps/Resources/StoreResource"));
   app.use("/productType", require("../apps/Resources/ProductTypeResource"));
-
-  app.use("/product", require("../apps/Resources/ProductResource"));
-  app.use("/productImage", require("../apps/Resources/ProductImageResource"));
 };
