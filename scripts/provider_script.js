@@ -30,8 +30,8 @@ try {
         console.log("there is no controller yet");
         return;
       }
-      controllers.forEach((value, index) => {
-        if (value == controllerName) {
+      for (var i = 0; i <= controllers.length; i++) {
+        if (controllers[i] == controllerName) {
           addPropertyToNpmCommand({ propertyName: fileName, method: METHOD });
           fs.readFile(READPATH + READFILENAME, DECODETYPE, (err, data) => {
             if (err) console.log(err);
@@ -47,9 +47,9 @@ try {
           console.log(METHOD + " CREATED");
           return;
         }
-        console.log("this " + controllerName + " does not already exist");
-        return false;
-      });
+      }
+      console.log("this Controller does not already exist");
+      return false;
     });
   };
 

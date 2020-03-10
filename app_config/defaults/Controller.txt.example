@@ -12,30 +12,50 @@ class ControllerName {
 
   // @GET REQUEST
   get() {
-    this.send.success({});
+    try {
+      this.send.success({});
+    } catch (err) {
+      this.send.error({ msg: err.message });
+    }
   }
 
   // @POST REQUEST
   post() {
-    this.send.success({});
+    try {
+      this.send.success({});
+    } catch (err) {
+      this.send.error({ msg: err.message });
+    }
   }
 
   // @GET/{id} REQUEST
   getWithParam() {
     const id = this.params.id;
-    this.send.success({});
+    try {
+      this.send.success({});
+    } catch (err) {
+      this.send.error({ msg: err.message });
+    }
   }
 
   // @PUT/{id} REQUEST
   update() {
     const id = this.params.id;
-    this.send.success({});
+    try {
+      this.send.success({});
+    } catch (err) {
+      this.send.error({ msg: err.message });
+    }
   }
 
   // @DELETE/{id} REQUEST
   delete() {
     const id = this.params.id;
-    this.send.success({});
+    try {
+      this.send.success({});
+    } catch (err) {
+      this.send.error({ msg: err.message });
+    }
   }
 }
 

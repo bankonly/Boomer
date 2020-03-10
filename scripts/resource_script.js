@@ -45,13 +45,9 @@ try {
       console.log("this " + controllerName + " " + METHOD + " does not exist");
       return;
     }
-    controllers.forEach((value, index) => {
-      if (value !== controllerName) {
-        console.log(
-          "this " + controllerName + " " + METHOD + " does not exist"
-        );
-        return;
-      } else {
+    let isControllerExist = false;
+    for (var i = 0; i <= controllers.length; i++) {
+      if (controllers[i] == controllerName) {
         readJsonCmd((err, data) => {
           const resources = JSON.parse(data).resources;
           if (resources.length < 1) {
@@ -72,7 +68,8 @@ try {
         });
         return;
       }
-    });
+    }
+    console.log("this " + controllerName + " " + METHOD + " does not exist");
   });
 } catch (error) {
   console.log(error.message);

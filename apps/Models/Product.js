@@ -31,6 +31,10 @@ Product.init(
       type: Sequelize.BIGINT,
       allowNull: false
     },
+    proName: {
+      type: Sequelize.STRING(50),
+      allowNull: false
+    },
     createdAt: {
       type: Sequelize.DATE,
       allowNull: true,
@@ -48,6 +52,13 @@ Product.init(
   },
   { sequelize, modelName: "products" }
 );
+
+// STORE relationship
+const { Store } = require("./Store");
+Product.belongsTo(Store, {
+  targetKey: "storeId",
+  foreignKey: "storeId"
+});
 
 module.exports = {
   ProductClass: new Product(),
