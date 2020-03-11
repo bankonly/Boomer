@@ -1,7 +1,15 @@
 const { Sequelize, sequelize } = require("../../app_config/database");
 const Model = Sequelize.Model;
+const { Store } = require("./Store");
 
 class Product extends Model {
+  async findByProId(proId, { exclude = [] }) {
+    return await Product.findOne({
+      where: { proId: proId },
+      attributes: { exclude: exclude }
+    });
+  }
+
   async findByStoreId(storeId, { exclude = [] }) {
     return await Product.findOne({
       where: { storeId: storeId },
@@ -13,6 +21,21 @@ class Product extends Model {
     return await Product.findOne({
       where: { proTypeId: proTypeId },
       attributes: { exclude: exclude }
+    });
+  }
+
+  async fetchhAllWithStore({ exclude = [] }) {
+    return await Product.findAll({
+      include: Store,
+      attributes: { exclude: exclude }
+    });
+  }
+
+  async findByProIdWithStore(proId, { exclude = [] }) {
+    return await Product.findOne({
+      include: Store,
+      attributes: { exclude: exclude },
+      where: { proId: proId }
     });
   }
 }
@@ -68,7 +91,6 @@ Product.init(
 );
 
 // STORE relationship
-const { Store } = require("./Store");
 Product.belongsTo(Store, {
   targetKey: "storeId",
   foreignKey: "storeId"

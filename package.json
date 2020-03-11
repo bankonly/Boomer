@@ -10,7 +10,8 @@
     "make:model": "node ./scripts/model_script.js",
     "make:provider": "node ./scripts/provider_script.js",
     "make:middleware": "node ./scripts/middleware_script.js",
-    "make:command": "node ./scripts/command_script.js"
+    "make:command": "node ./scripts/command_script.js",
+    "golion:start": "nodemon index"
   },
   "author": "bank",
   "license": "ISC",

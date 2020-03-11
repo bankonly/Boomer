@@ -1,7 +1,14 @@
 const { Sequelize, sequelize } = require("../../app_config/database");
 const Model = Sequelize.Model;
 
-class ProductImage extends Model {}
+class ProductImage extends Model {
+  async findByProImgId(proImgId, { exclude = [] }) {
+    return await ProductImage.findOne({
+      where: { proImgId: proImgId },
+      attributes: { exclude: exclude }
+    });
+  }
+}
 
 ProductImage.init(
   {
@@ -38,11 +45,11 @@ ProductImage.init(
 );
 
 // relation to product
-const { Product } = require('./Product')
-ProductImage.belongsTo(Product,{
+const { Product } = require("./Product");
+ProductImage.belongsTo(Product, {
   targetKey: "proId",
   foreignKey: "proId"
-})
+});
 
 module.exports = {
   ProductImageClass: new ProductImage(),

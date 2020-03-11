@@ -16,12 +16,56 @@ const fileName = process.argv[process.argv.length - 1];
 
 try {
   const params = process.argv[process.argv.length - 1].split(":");
-  if (params.length < 2) {
-    console.log("ERROR: make:provider Providername:ControllerName");
-    return;
-  }
+
   const fileName = params[0];
   const controllerName = params[1];
+
+  if (params.length < 2) {
+    readJsonCmd((err, data) => {
+      const providers = JSON.parse(data).providers;
+      if (providers.length < 1) {
+        addPropertyToNpmCommand({ propertyName: fileName, method: METHOD });
+        fs.readFile(READPATH + READFILENAME, DECODETYPE, (err, data) => {
+          if (err) console.log(err);
+          else {
+            data = data.replace(/ControllerName/g, controllerName);
+            data = data.replace(/ProviderName/g, fileName);
+            fs.writeFile(`${WRITEPATH}${fileName}.${FILETYPE}`, data, err => {
+              if (err) console.log(err);
+              console.log(`${METHOD} ${fileName} CREATED`);
+            });
+          }
+        });
+        console.log(METHOD + " CREATED");
+        return;
+      }
+      let create = true;
+      for (var i = 0; i <= providers.length; i++) {
+        if (providers[i] == fileName) {
+          console.log("this " + fileName + " " + METHOD + "  already exist");
+          create = false;
+          return;
+        }
+      }
+      if (create) {
+        addPropertyToNpmCommand({ propertyName: fileName, method: METHOD });
+        fs.readFile(READPATH + READFILENAME, DECODETYPE, (err, data) => {
+          if (err) console.log(err);
+          else {
+            data = data.replace(/ControllerName/g, controllerName);
+            data = data.replace(/ProviderName/g, fileName);
+            fs.writeFile(`${WRITEPATH}${fileName}.${FILETYPE}`, data, err => {
+              if (err) console.log(err);
+              console.log(`${METHOD} ${fileName} CREATED`);
+            });
+          }
+        });
+        console.log(METHOD + " CREATED");
+        return;
+      }
+    });
+    return;
+  }
 
   const CREATE = () => {
     readJsonCmd((err, data) => {

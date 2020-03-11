@@ -13,13 +13,6 @@ class ProductType extends Model {
     });
   }
 
-  async findByProId(proId, { exclude = [] }) {
-    return await ProductType.findOne({
-      where: { proId: proId },
-      attributes: { exclude: exclude }
-    });
-  }
-
   async findByProTypeName(proTypeName, { exclude = [] }) {
     return await ProductType.findOne({
       where: { proTypeName: proTypeName },

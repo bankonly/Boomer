@@ -34,8 +34,8 @@ class ProductTypeController {
 
       const createProType = await ProTypeProvider.createProductType(body);
       if (createProType.code == 200) {
-        delete createProType.data.dataValues.createdAt;
-        delete createProType.data.dataValues.updatedAt;
+        delete createProType.data.createdAt;
+        delete createProType.data.updatedAt;
         return this.send.success(createProType);
       }
       return this.send.badRequest(createProType);

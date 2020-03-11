@@ -8,12 +8,13 @@ class ControllerName {
     this.params = req.params;
     this.body = req.body;
     this.send = Res(res);
+    this.response = Res(res).success;
   }
 
   // @GET REQUEST
   get() {
     try {
-      this.send.success({});
+      this.response({});
     } catch (err) {
       this.send.error({ msg: err.message });
     }
@@ -22,7 +23,7 @@ class ControllerName {
   // @POST REQUEST
   post() {
     try {
-      this.send.success({});
+      this.response({});
     } catch (err) {
       this.send.error({ msg: err.message });
     }
@@ -32,7 +33,7 @@ class ControllerName {
   getWithParam() {
     const id = this.params.id;
     try {
-      this.send.success({});
+      this.response({});
     } catch (err) {
       this.send.error({ msg: err.message });
     }
@@ -42,7 +43,7 @@ class ControllerName {
   update() {
     const id = this.params.id;
     try {
-      this.send.success({});
+      this.response({});
     } catch (err) {
       this.send.error({ msg: err.message });
     }
@@ -52,7 +53,7 @@ class ControllerName {
   delete() {
     const id = this.params.id;
     try {
-      this.send.success({});
+      this.response({});
     } catch (err) {
       this.send.error({ msg: err.message });
     }

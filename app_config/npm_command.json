@@ -1,1 +1,42 @@
-{"script":{"make:controller":"node ./scripts/controller_script.js","make:resource":"node ./scripts/resource_script.js","make:model":"node ./scripts/model_script.js","make:provider":"node ./scripts/provider_script.js","make:middleware":"node ./scripts/middleware_script.js","make:command":"node ./scripts/command_script.js"},"controllers":["UserController","ExchangeRateController","StoreController","ProductTypeController","ProductController"],"providers":["UserProvider","ExchangeRateProvider","StoreProvider","ProductTypeResource","ProductTypeProvider","ProductProvider"],"models":["User","Product","ProductImage","ExchangeRate","Store","ProductType"],"resources":["UserResource","ExchangeRateResource","StoreResource","ProductTypeResource","ProductResource"],"middlewares":["ApiAuthentication","AdminAuthenticate"],"commands":[]}
+{
+  "script": {
+    "make:controller": "node ./scripts/controller_script.js",
+    "make:resource": "node ./scripts/resource_script.js",
+    "make:model": "node ./scripts/model_script.js",
+    "make:provider": "node ./scripts/provider_script.js",
+    "make:middleware": "node ./scripts/middleware_script.js",
+    "make:command": "node ./scripts/command_script.js"
+  },
+  "controllers": [
+    "UserController",
+    "ExchangeRateController",
+    "StoreController",
+    "ProductTypeController",
+    "ProductController"
+  ],
+  "providers": [
+    "UserProvider",
+    "ExchangeRateProvider",
+    "StoreProvider",
+    "ProductTypeProvider",
+    "ProductProvider",
+    "ProductImageProvider"
+  ],
+  "models": [
+    "User",
+    "Product",
+    "ProductImage",
+    "ExchangeRate",
+    "Store",
+    "ProductType"
+  ],
+  "resources": [
+    "UserResource",
+    "ExchangeRateResource",
+    "StoreResource",
+    "ProductTypeResource",
+    "ProductResource"
+  ],
+  "middlewares": ["ApiAuthentication", "AdminAuthenticate"],
+  "commands": []
+}
