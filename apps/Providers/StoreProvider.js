@@ -73,11 +73,13 @@ class StockProvider {
       return Res.notFound({ msg: "This ID is not exist" });
     }
 
-    if (isStoreData.storeName !== storeName) {
+    const isStoreName = await StoreClass.findByStoreName(storeName,{})
+    if (isStoreName !== null && isStoreData.storeName !== storeName) {
       return Res.duplicated({ msg: "StoreName already in use" });
     }
 
-    if (isStoreData.storePhoneNumber !== storePhoneNumber) {
+    const isPhoneNumber = await StoreClass.findByStorePhoneNumber(storePhoneNumber,{})
+    if (isPhoneNumber !== null && isStoreData.storePhoneNumber !== storePhoneNumber) {
       return Res.duplicated({ msg: "StorePhoneNumber already in use" });
     }
 
@@ -91,7 +93,7 @@ class StockProvider {
       storeMapAddress
     };
     if (isStoreData.update(updateData)) {
-      return Res.success({ data: isStoreData });
+      return Res.success({ data: updateData });
     }
     return Res.badRequest({ msg: "Can not Update" });
   }

@@ -1,49 +1,70 @@
 const Res = require("./ResponseController");
+const Controller = require("./Controller");
 const { ProductClass } = require("../Models/Product");
 const ProductProvider = require("../Providers/ProductProvider");
+const ProductImageProvider = require("../Providers/ProductImageProvider");
+const FileProvider = require("../Providers/FileProvider");
+const CONSTANTS = require("../../app_config/constants");
 
-class ProductController {
-  constructor(req, res, next) {
-    this.req = req;
-    this.res = res;
-    this.next = next;
-    this.params = req.params;
-    this.body = req.body;
-    this.send = Res(res);
-    this.response = Res(res).success;
+class ProductController extends Controller {
+  constructor() {
+    super(...arguments);
+    this.data = {};
   }
-
   // @GET REQUEST
   async get() {
     try {
       const fetchAll = await ProductClass.fetchhAllWithStore({});
-      this.send.success({ data: fetchAll });
-    } catch (err) {
-      this.send.error({ msg: err.message });
+      this.response({ data: fetchAll });
+    } catch ({ message }) {
+      this.responseError({ msg: message });
     }
   }
 
   // @POST REQUEST
   async post() {
     try {
-      const body = {
+      this.data = {
         proPrice: this.body.proPrice,
         proTypeId: this.body.proTypeId,
         proQuantity: this.body.proQuantity,
         proDesc: this.body.proDesc,
         storeId: this.body.storeId,
-        proName: this.body.proName
+        proName: this.body.proName,
+        proImageName: this.body.proImageName
       };
 
-      const addProduct = await ProductProvider.addProduct(body);
-      if (addProduct.code == 200) {
-        delete addProduct.data.createdAt
-        delete addProduct.data.updatedAt
-        return this.response(addProduct);
-      }
-      this.response(addProduct);
+      // const validate = ProductProvider.validateCreateObj(this.data);
+      // if (!validate.status) return this.response(validate);
+
+      FileProvider.saveMultipleImage(
+        this.req,
+        this.res,
+        {
+          param: "proImageName",
+          limit: 3,
+          path: CONSTANTS.productImgPath
+        },
+        async (req, isSave) => {
+          if (isSave.code !== 200) return this.response(isSave);
+
+          const addProduct = await ProductProvider.addProduct(this.data);
+          if (addProduct.code == 200) {
+            // const builtData = ProductImageProvider.buildInsertData(
+            //   addProduct.data.proId,
+            //   req.files
+            // );
+            // if (!builtData.status) return this.response(builtData);
+            // const isSaveImg = ProductImageProvider.addProductImage(builtData.data);
+            // if (isSaveImg.code !== 200) return this.response(isSaveImg);
+            // delete addProduct.data.createdAt;
+            // delete addProduct.data.updatedAt;
+          }
+          this.response(addProduct);
+        }
+      );
     } catch (err) {
-      this.send.error({ msg: err.message });
+      this.responseError({ msg: err.message });
     }
   }
 
@@ -52,9 +73,9 @@ class ProductController {
     const id = this.params.id;
     try {
       const isProduct = await ProductProvider.getProduct({ proId: id });
-      this.send.success(isProduct);
+      this.response(isProduct);
     } catch (err) {
-      this.send.error({ msg: err.message });
+      this.responseError({ msg: err.message });
     }
   }
 
@@ -77,7 +98,7 @@ class ProductController {
       }
       this.response(updateProduct);
     } catch (err) {
-      this.send.error({ msg: err.message });
+      this.responseError({ msg: err.message });
     }
   }
 
@@ -88,7 +109,7 @@ class ProductController {
       const isProduct = await ProductProvider.destroyProduct({ proId: id });
       return this.response(isProduct);
     } catch (err) {
-      this.send.error({ msg: err.message });
+      this.responseError({ msg: err.message });
     }
   }
 }

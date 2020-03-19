@@ -117,7 +117,7 @@ class UserProvider {
       const isPhoneNumber = await UserClass.findByPhoneNumber(phoneNumber);
       if (isPhoneNumber == null) {
         return Res.notFound({
-          data: userData.phoneNumber,
+          data: phoneNumber,
           msg: "Phonenumber notfound"
         });
       }

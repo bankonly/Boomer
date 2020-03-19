@@ -1,23 +1,16 @@
 const Res = require("./ResponseController");
+const Controller = require("./Controller");
+
 const { UserClass, User } = require("../Models/User");
 const UserProvider = require("../Providers/UserProvider");
-class UserController {
-  constructor(req, res, next) {
-    this.req = req;
-    this.res = res;
-    this.next = next;
-    this.params = req.params;
-    this.send = Res(res);
-    this.body = req.body;
-  }
-
+class UserController extends Controller {
   // @GET REQUEST
   async get() {
     try {
       const fetchAll = await UserClass.fetchAll({});
-      this.send.success({ data: fetchAll });
+      this.response({ data: fetchAll });
     } catch (err) {
-      this.send.error({ msg: err.message });
+      this.responseError({ msg: err.message });
     }
   }
 
@@ -26,9 +19,9 @@ class UserController {
       const authData = await UserProvider.getAuth({
         userId: this.req.auth.userId
       });
-      this.send.success(authData);
+      this.response(authData);
     } catch (err) {
-      this.send.error({ msg: err.message });
+      this.responseError({ msg: err.message });
     }
   }
 
@@ -38,14 +31,14 @@ class UserController {
         phoneNumber: this.req.body.phoneNumber,
         password: this.req.body.password
       };
-      console.log(body);
+      
       const isValidate = UserProvider.validateLoginObj(body);
       if (isValidate.code !== 200) return this.send.badRequest(isValidate);
 
       const authData = await UserProvider.login(body);
-      this.send.success(authData);
+      this.response(authData);
     } catch (err) {
-      this.send.error({ msg: err.message });
+      this.responseError({ msg: err.message });
     }
   }
 
@@ -62,28 +55,28 @@ class UserController {
       if (isValidate.code !== 200) return this.send.badRequest(isValidate);
 
       const isRegistered = await UserProvider.register(body);
-      this.send.success(isRegistered);
+      this.response(isRegistered);
     } catch (err) {
-      this.send.error({ msg: err.message });
+      this.responseError({ msg: err.message });
     }
   }
 
   // @GET/{id} REQUEST
   getWithParam() {
     const id = this.params.id;
-    this.send.success(`GET/${id} REQUEST`);
+    this.response(`GET/${id} REQUEST`);
   }
 
   // @PUT REQUEST
   async update() {
     const isUpdated = await UserProvider.update(this.req);
-    this.send.success(isUpdated);
+    this.response(isUpdated);
   }
 
   // @DELETE/{id} REQUEST
   delete() {
     const id = this.params.id;
-    this.send.success({});
+    this.response({});
   }
 }
 

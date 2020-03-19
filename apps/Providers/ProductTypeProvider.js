@@ -61,14 +61,11 @@ class ProductTypeProvider {
   async updateProductType(proTypeId, { proTypeName }) {
     try {
       const isProType = await ProductTypeClass.findByProTypeId(proTypeId, {});
-      if (isProType == null)
+      if (isProType == null) {
         return Res.notFound({ msg: "This ID is not exist" });
-
-      const isProTypeName = await ProductTypeClass.findByProTypeName(
-        proTypeName,
-        {}
-      );
-      if (isProTypeName !== null && isProType.proTypeName !== proTypeName) {
+      }
+      const isProTypeName = await ProductTypeClass.findByProTypeName(proTypeName,{});
+      if (isProTypeName !== null && isProTypeName.proTypeName !== proTypeName) {
         return Res.duplicated({ msg: "ProTypeName is already exist" });
       }
       if (isProType.update({ proTypeName })) {

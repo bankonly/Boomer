@@ -1,21 +1,14 @@
 const Res = require("./ResponseController");
+const Controller = require("./Controller");
 const { Store, StoreClass } = require("../Models/Store");
 const StoreProvider = require("../Providers/StoreProvider");
 
-class StoreController {
-  constructor(req, res, next) {
-    this.req = req;
-    this.res = res;
-    this.next = next;
-    this.params = req.params;
-    this.body = req.body;
-    this.send = Res(res);
-  }
+class StoreController extends Controller{
 
   // @GET REQUEST
   async get() {
     const fetchAll = await StoreClass.fetchAll({});
-    return this.send.success({ data: fetchAll });
+    return this.response({ data: fetchAll });
   }
 
   // @POST REQUEST
@@ -31,18 +24,17 @@ class StoreController {
         storeMapAddress: this.body.storeMapAddress
       };
       const isValidate = StoreProvider.validateRegisterObj(body);
-      if (isValidate.code !== 200) return this.send.badRequest(isValidate);
+      if (isValidate.code !== 200) return this.response(isValidate);
 
       const isRegister = await StoreProvider.registerStore(body);
       if (isRegister.code == 200) {
         delete isRegister.data.dataValues.createdAt;
         delete isRegister.data.dataValues.updatedAt;
-        return this.send.success(isRegister);
       }
-      return this.send.badRequest(isRegister);
+      return this.response(isRegister);
     } catch (error) {
       console.log(error.message);
-      this.send.error({ msg: error.message });
+      this.responseError({ msg: error.message });
     }
   }
 
@@ -51,9 +43,9 @@ class StoreController {
     try {
       const id = this.params.id;
       const storeData = await StoreProvider.getStore({ storeId: id });
-      this.send.success(storeData);
+      this.response(storeData);
     } catch (err) {
-      this.send.error({ msg: err.message });
+      this.responseError({ msg: err.message });
     }
   }
 
@@ -71,18 +63,13 @@ class StoreController {
         storeMapAddress: this.body.storeMapAddress
       };
       const isValidate = StoreProvider.validateRegisterObj(body);
-      if (isValidate.code !== 200) return this.send.badRequest(isValidate);
+      if (isValidate.code !== 200) return this.response(isValidate);
 
       const isUpdated = await StoreProvider.updateStore(id, body);
-      if (isUpdated.code == 200) {
-        delete isUpdated.data.dataValues.createdAt;
-        delete isUpdated.data.dataValues.updatedAt;
-        return this.send.success(isUpdated);
-      }
-      return this.send.badRequest({});
+      return this.response(isUpdated);
     } catch (error) {
       console.log(error.message);
-      this.send.error({ msg: error.message });
+      this.responseError({ msg: error.message });
     }
   }
 
@@ -91,9 +78,9 @@ class StoreController {
     try {
       const id = this.params.id;
       const storeData = await StoreProvider.destroyStore({ storeId: id });
-      this.send.success(storeData);
+      this.response(storeData);
     } catch (err) {
-      this.send.error({ msg: err.message });
+      this.responseError({ msg: err.message });
     }
   }
 }

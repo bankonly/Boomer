@@ -1,24 +1,18 @@
 const Res = require("./ResponseController");
+const Controller = require("./Controller");
 const { ProductType, ProductTypeClass } = require("../Models/ProductType");
 const ProTypeProvider = require("../Providers/ProductTypeProvider");
 
-class ProductTypeController {
-  constructor(req, res, next) {
-    this.req = req;
-    this.res = res;
-    this.next = next;
-    this.params = req.params;
-    this.body = req.body;
-    this.send = Res(res);
-  }
-
+class ProductTypeController extends Controller {
   // @GET REQUEST
   async get() {
     try {
-      const fetchAll = await ProductTypeClass.fetchAll({exclude:['deletedAt']});
-      this.send.success({ data: fetchAll });
+      const fetchAll = await ProductTypeClass.fetchAll({
+        exclude: ["deletedAt"]
+      });
+      this.response({ data: fetchAll });
     } catch (err) {
-      this.send.error({ msg: err.message });
+      this.responseError({ msg: err.message });
     }
   }
 
@@ -30,17 +24,16 @@ class ProductTypeController {
       };
 
       const isValidate = ProTypeProvider.validateCreateObj(body);
-      if (isValidate.code !== 200) return this.send.badRequest(isValidate);
+      if (isValidate.code !== 200) return this.response(isValidate);
 
       const createProType = await ProTypeProvider.createProductType(body);
       if (createProType.code == 200) {
         delete createProType.data.createdAt;
         delete createProType.data.updatedAt;
-        return this.send.success(createProType);
       }
-      return this.send.badRequest(createProType);
+      return this.response(createProType);
     } catch (err) {
-      this.send.error({ msg: err.message });
+      this.responseError({ msg: err.message });
     }
   }
 
@@ -49,12 +42,9 @@ class ProductTypeController {
     const id = this.params.id;
     try {
       const isProType = await ProTypeProvider.getProductType({ proTypeId: id });
-      if (isProType.code == 200) {
-        return this.send.success(isProType);
-      }
-      return this.send.badRequest(isProType);
+      return this.response(isProType);
     } catch (err) {
-      this.send.error({ msg: err.message });
+      this.responseError({ msg: err.message });
     }
   }
 
@@ -67,18 +57,17 @@ class ProductTypeController {
       };
 
       const isValidate = ProTypeProvider.validateCreateObj(body);
-      if (isValidate.code !== 200) return this.send.badRequest(isValidate);
+      if (isValidate.code !== 200) return this.response(isValidate);
 
       const createProType = await ProTypeProvider.updateProductType(id, body);
       if (createProType.code == 200) {
         delete createProType.data.createdAt;
         delete createProType.data.updatedAt;
         delete createProType.data.deletedAt;
-        return this.send.success(createProType);
       }
-      return this.send.badRequest(createProType);
+      return this.response(createProType);
     } catch (err) {
-      this.send.error({ msg: err.message });
+      this.responseError({ msg: err.message });
     }
   }
 
@@ -89,12 +78,9 @@ class ProductTypeController {
       const isProtypeDel = await ProTypeProvider.destroyProductType({
         proTypeId: id
       });
-      if (isProtypeDel.code == 200) {
-        return this.send.success({});
-      }
-      return this.send.badRequest(isProtypeDel);
+      return this.response(isProtypeDel);
     } catch (err) {
-      this.send.error({ msg: err.message });
+      this.responseError({ msg: err.message });
     }
   }
 }

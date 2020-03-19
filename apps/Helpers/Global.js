@@ -6,7 +6,7 @@ function isFloat(floatNumber) {
 }
 
 function isInt(intNumber) {
-  const isIntType = isNaN(parseFloat(intNumber));
+  const isIntType = isNaN(parseInt(intNumber));
   if (isIntType) return false;
   return true;
 }

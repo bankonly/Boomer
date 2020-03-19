@@ -1,6 +1,7 @@
 const Res = require("./ResponseController");
+const Controller = require("./Controller");
 
-class ControllerName {
+class ControllerName extends Controller {
   constructor(req, res, next) {
     this.req = req;
     this.res = res;

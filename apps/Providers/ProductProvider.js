@@ -6,6 +6,9 @@ const { Product, ProductClass } = require("../Models/Product");
 const { ProductTypeClass } = require("../Models/ProductType");
 const { StoreClass } = require("../Models/Store");
 
+// provider
+const FileProvider = require("./FileProvider");
+
 class ProductProvider {
   validateCreateObj(createObj) {
     if (!createObj.proPrice && !isFloat(createObj.proPrice)) {
@@ -26,6 +29,10 @@ class ProductProvider {
     if (!createObj.proName) {
       return Res.badRequest({ msg: "proName is requried" });
     }
+    if (!createObj.proImageName) {
+      return Res.badRequest({ msg: "proImageName is requried" });
+    }
+
     return Res.success({});
   }
 
@@ -35,7 +42,8 @@ class ProductProvider {
     proQuantity,
     proDesc,
     storeId,
-    proName
+    proName,
+    proImageName
   }) {
     try {
       const isProType = await ProductTypeClass.findByProTypeId(proTypeId, {});
@@ -64,7 +72,7 @@ class ProductProvider {
     { proPrice, proTypeId, proQuantity, proDesc, storeId, proName }
   ) {
     try {
-      const isProduct = await ProductClass.findByProId(proId,{});
+      const isProduct = await ProductClass.findByProId(proId, {});
       if (isProduct == null) {
         return Res.notFound({ msg: "This ID does not exist" });
       }
@@ -100,7 +108,7 @@ class ProductProvider {
 
   async getProduct({ proId }) {
     try {
-      const isProduct = await ProductClass.findByProIdWithStore(proId,{});
+      const isProduct = await ProductClass.findByProIdWithStore(proId, {});
       if (isProduct == null) {
         return Res.notFound({ msg: "This ID does not exist" });
       }
@@ -113,7 +121,7 @@ class ProductProvider {
 
   async destroyProduct({ proId }) {
     try {
-      const isProduct = await ProductClass.findByProId(proId,{});
+      const isProduct = await ProductClass.findByProId(proId, {});
       if (isProduct == null) {
         return Res.notFound({ msg: "This ID does not exist" });
       }
