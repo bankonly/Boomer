@@ -109,9 +109,9 @@ class StockProvider {
         return Res.success({});
       }
       return Res.error({ msg: "Can not delete" });
-    } catch (error) {
-      console.log(error.message);
-      return Res.somethingWrong({ msg: error.message });
+    } catch ({message}) {
+      console.log(message);
+      return Res.somethingWrong({ msg: message });
     }
   }
 
@@ -122,9 +122,9 @@ class StockProvider {
         return Res.notFound({ msg: "This ID is not exist" });
       }
       return Res.success({ data: isStoreData });
-    } catch (error) {
-      console.log(error.message);
-      return Res.somethingWrong({ msg: error.message });
+    } catch ({message}) {
+      console.log(message);
+      return Res.somethingWrong({ msg: message });
     }
   }
 }

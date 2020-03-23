@@ -1,13 +1,9 @@
 const fs = require("fs");
-
-const {
-  addPropertyToNpmCommand,
-  readJsonCmd
-} = require("../app_config/commands");
+const log = require("chalk");
 
 const METHOD = "models";
 const READPATH = "./app_config/defaults/";
-const WRITEPATH = "./apps/Models/";
+var WRITEPATH = "./apps/Models/";
 const FILETYPE = "js";
 const READFILENAME = "Model.txt.example";
 const DECODETYPE = "utf8";
@@ -15,47 +11,51 @@ const DECODETYPE = "utf8";
 try {
   const params = process.argv[process.argv.length - 1].split(":");
   if (params.length < 2) {
-    console.log("ERROR: make:model ModeName:TableName");
+    console.log(
+      log.red(
+        METHOD.toLowerCase() + `: please... correct command ${params}:{table}`
+      )
+    );
     return;
   }
-  const fileName = params[0];
+  var fileName = params[0];
   const tableName = params[1];
 
+  const commands = fileName.split("/");
+
+  if (commands.length > 1) {
+    fileName = commands[1];
+    // connect string to get correct path
+    WRITEPATH = WRITEPATH.concat(commands[0] + "/");
+    if (!fs.existsSync(WRITEPATH)) {
+      fs.mkdirSync(WRITEPATH);
+    }
+  }
+  // check if file name is already exist or not
+  if (fs.existsSync(WRITEPATH + fileName + "." + FILETYPE)) {
+    console.log(
+      log.red(METHOD.toLowerCase() + `: ${fileName} is already exist`)
+    );
+    return;
+  }
+
   const CREATE = () => {
-    addPropertyToNpmCommand({ propertyName: fileName, method: METHOD });
     fs.readFile(READPATH + READFILENAME, DECODETYPE, (err, data) => {
-      console.log(tableName);
-      if (err) console.log(err);
+      if (err) console.log(log.red(err));
       else {
         data = data.replace(/DefineModelName/g, fileName);
         data = data.replace(/TableName/g, tableName);
-
         fs.writeFile(`${WRITEPATH}${fileName}.${FILETYPE}`, data, err => {
-          if (err) console.log(err);
-          console.log(`${METHOD} ${fileName} CREATED`);
+          if (err) console.log(log.red(err));
+          console.log(
+            log.green(`${METHOD.toLowerCase()}: ${fileName} created`)
+          );
         });
       }
     });
   };
 
-  readJsonCmd((err, data) => {
-    const models = JSON.parse(data).models;
-    if (models.length < 1) {
-      CREATE();
-      return;
-    }
-    let create = true;
-    for (var i = 0; i <= models.length; i++) {
-      if (models[i] == fileName) {
-        console.log("this " + fileName + " " + METHOD + "  already exist");
-        create = false;
-        return;
-      }
-    }
-    if (create) {
-      CREATE();
-    }
-  });
+  CREATE();
 } catch (error) {
   console.log(error.message);
 }

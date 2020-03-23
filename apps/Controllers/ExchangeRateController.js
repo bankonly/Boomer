@@ -9,8 +9,8 @@ class ExchangeRateController extends Controller {
     try {
       const exchData = await ExchangeRateClass.fetchAll({});
       this.response({ data: exchData });
-    } catch (err) {
-      this.responseError({ msg: err.message });
+    } catch ({ message }) {
+      this.responseError({ msg: message });
     }
   }
 
@@ -25,7 +25,7 @@ class ExchangeRateController extends Controller {
       };
 
       const isValidate = ExchProvider.validateCreateObj(body);
-      if (isValidate.code !== 200) return this.send.badRequest(isValidate);
+      if (isValidate.code !== 200) return this.response(isValidate);
 
       const createData = await ExchProvider.createExchRate(body);
       if (createData.code == 200) {
@@ -33,8 +33,8 @@ class ExchangeRateController extends Controller {
         delete createData.data.updatedAt;
       }
       this.response(createData);
-    } catch (err) {
-      this.responseError({ msg: err.message });
+    } catch ({ message }) {
+      this.responseError({ msg: message });
     }
   }
 
@@ -44,8 +44,8 @@ class ExchangeRateController extends Controller {
       const id = this.params.id;
       const exchData = await ExchProvider.getExchRate({ exchId: id });
       this.response(exchData);
-    } catch (err) {
-      this.responseError({ msg: err.message });
+    } catch ({ message }) {
+      this.responseError({ msg: message });
     }
   }
 
@@ -61,7 +61,7 @@ class ExchangeRateController extends Controller {
       };
 
       const isValidate = ExchProvider.validateCreateObj(body);
-      if (isValidate.code !== 200) return this.send.badRequest(isValidate);
+      if (isValidate.code !== 200) return this.response(isValidate);
 
       const updateData = await ExchProvider.updateExchRate(body, {
         exchId: id
@@ -71,8 +71,8 @@ class ExchangeRateController extends Controller {
         delete updateData.data.updatedAt;
       }
       this.response(updateData);
-    } catch (err) {
-      this.responseError({ msg: err.message });
+    } catch ({ message }) {
+      this.responseError({ msg: message });
     }
   }
 
@@ -82,8 +82,8 @@ class ExchangeRateController extends Controller {
       const id = this.params.id;
       const exchData = await ExchProvider.destroyExchRate({ exchId: id });
       this.response(exchData);
-    } catch (err) {
-      this.responseError({ msg: err.message });
+    } catch ({ message }) {
+      this.responseError({ msg: message });
     }
   }
 }

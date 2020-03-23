@@ -44,12 +44,12 @@ ProductImage.init(
   { sequelize, modelName: "productImages" }
 );
 
-// relation to product
-const { Product } = require("./Product");
-ProductImage.belongsTo(Product, {
-  targetKey: "proId",
-  foreignKey: "proId"
-});
+// // relation to product
+// const { Product } = require("./Product");
+// ProductImage.belongsTo(Product, {
+//   targetKey: "proId",
+//   foreignKey: "proId"
+// });
 
 module.exports = {
   ProductImageClass: new ProductImage(),

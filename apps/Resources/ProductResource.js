@@ -1,8 +1,11 @@
 const router = require("express").Router();
+const CONSTANTS = require("../../app_config/constants");
+
 const ProductController = require("../Controllers/ProductController");
+const FileProvider = require("../Providers/FileProvider");
 
 router.get("/", (...args) => ProductController(...args).get());
-router.post("/", (...args) => ProductController(...args).post());
+router.post("/",FileProvider.saveMultipleImage({path:CONSTANTS.productImgPath}).any(), (...args) => ProductController(...args).post());
 router.get("/:id", (...args) => ProductController(...args).getWithParam());
 router.put("/:id", (...args) => ProductController(...args).update());
 router.delete("/:id", (...args) => ProductController(...args).delete());

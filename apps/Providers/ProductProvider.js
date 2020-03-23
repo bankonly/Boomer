@@ -29,9 +29,6 @@ class ProductProvider {
     if (!createObj.proName) {
       return Res.badRequest({ msg: "proName is requried" });
     }
-    if (!createObj.proImageName) {
-      return Res.badRequest({ msg: "proImageName is requried" });
-    }
 
     return Res.success({});
   }
@@ -108,7 +105,10 @@ class ProductProvider {
 
   async getProduct({ proId }) {
     try {
-      const isProduct = await ProductClass.findByProIdWithStore(proId, {});
+      const hideColmn = ["storeId"];
+      const isProduct = await ProductClass.findByProIdWithStore(proId, {
+        exclude: hideColmn
+      });
       if (isProduct == null) {
         return Res.notFound({ msg: "This ID does not exist" });
       }

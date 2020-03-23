@@ -5,6 +5,7 @@ const ProductProvider = require("../Providers/ProductProvider");
 const ProductImageProvider = require("../Providers/ProductImageProvider");
 const FileProvider = require("../Providers/FileProvider");
 const CONSTANTS = require("../../app_config/constants");
+const multer = require("multer");
 
 class ProductController extends Controller {
   constructor() {
@@ -24,45 +25,31 @@ class ProductController extends Controller {
   // @POST REQUEST
   async post() {
     try {
-      this.data = {
+     const body = {
         proPrice: this.body.proPrice,
         proTypeId: this.body.proTypeId,
         proQuantity: this.body.proQuantity,
         proDesc: this.body.proDesc,
         storeId: this.body.storeId,
-        proName: this.body.proName,
-        proImageName: this.body.proImageName
+        proName: this.body.proName
       };
 
-      // const validate = ProductProvider.validateCreateObj(this.data);
-      // if (!validate.status) return this.response(validate);
+      const validate = ProductProvider.validateCreateObj(body);
+      if (!validate.status) return this.response(validate);
 
-      FileProvider.saveMultipleImage(
-        this.req,
-        this.res,
-        {
-          param: "proImageName",
-          limit: 3,
-          path: CONSTANTS.productImgPath
-        },
-        async (req, isSave) => {
-          if (isSave.code !== 200) return this.response(isSave);
-
-          const addProduct = await ProductProvider.addProduct(this.data);
-          if (addProduct.code == 200) {
-            // const builtData = ProductImageProvider.buildInsertData(
-            //   addProduct.data.proId,
-            //   req.files
-            // );
-            // if (!builtData.status) return this.response(builtData);
-            // const isSaveImg = ProductImageProvider.addProductImage(builtData.data);
-            // if (isSaveImg.code !== 200) return this.response(isSaveImg);
-            // delete addProduct.data.createdAt;
-            // delete addProduct.data.updatedAt;
-          }
-          this.response(addProduct);
-        }
-      );
+      const addProduct = await ProductProvider.addProduct(body);
+      if (addProduct.code == 200) {
+        const builtData = ProductImageProvider.buildInsertData(
+          addProduct.data.proId,
+          this.req.files
+        );
+        if (!builtData.status) return this.response(builtData);
+        const isSaveImg = ProductImageProvider.addProductImage(builtData.data);
+        if (isSaveImg.code !== 200) return this.response(isSaveImg);
+        delete addProduct.data.createdAt;
+        delete addProduct.data.updatedAt;
+      }
+      this.response(addProduct);
     } catch (err) {
       this.responseError({ msg: err.message });
     }

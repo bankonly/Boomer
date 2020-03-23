@@ -1,50 +1,50 @@
 const fs = require("fs");
-
-const {
-  addPropertyToNpmCommand,
-  readJsonCmd
-} = require("../app_config/commands");
+const log = require("chalk");
 
 const METHOD = "controllers";
 const READPATH = "./app_config/defaults/";
-const WRITEPATH = "./apps/Controllers/";
+var WRITEPATH = "./apps/Controllers/";
 const FILETYPE = "js";
 const READFILENAME = "Controller.txt.example";
 const DECODETYPE = "utf8";
 
-const fileName = process.argv[process.argv.length - 1];
+try {
+  var fileName = process.argv[process.argv.length - 1];
+  const commands = fileName.split("/");
 
-const CREATE = () => {
-  addPropertyToNpmCommand({ propertyName: fileName, method: METHOD });
-  fs.readFile(READPATH + READFILENAME, DECODETYPE, (err, data) => {
-    if (err) console.log(err);
-    else {
-      data = data.replace(/ControllerName/g, fileName);
-      fs.writeFile(`${WRITEPATH}${fileName}.${FILETYPE}`, data, err => {
-        if (err) console.log(err);
-        console.log(`${METHOD} ${fileName} CREATED`);
-      });
-    }
-  });
-};
-
-readJsonCmd((err, data) => {
-  const controllers = JSON.parse(data).controllers;
-  if (controllers.length < 1) {
-    CREATE();
-    return;
-  } else {
-    let create = true;
-    for (var i = 0; i <= controllers.length; i++) {
-      if (controllers[i] == fileName) {
-        console.log("this " + fileName + " is already exist");
-        create = false;
-        return;
-      }
-    }
-    if (create) {
-      CREATE();
-      return;
+  if (commands.length > 1) {
+    fileName = commands[1];
+    // connect string to get correct path
+    WRITEPATH = WRITEPATH.concat(commands[0] + "/");
+    if (!fs.existsSync(WRITEPATH)) {
+      fs.mkdirSync(WRITEPATH);
     }
   }
-});
+
+  // check if file name is already exist or not
+  if (fs.existsSync(WRITEPATH + fileName + "." + FILETYPE)) {
+    console.log(
+      log.red(METHOD.toLowerCase() + `: ${fileName} is already exist`)
+    );
+    return;
+  }
+
+  const CREATE = () => {
+    fs.readFile(READPATH + READFILENAME, DECODETYPE, (err, data) => {
+      if (err) console.log(log.red(err));
+      else {
+        data = data.replace(/ControllerName/g, fileName);
+        fs.writeFile(`${WRITEPATH}${fileName}.${FILETYPE}`, data, err => {
+          if (err) console.log(log.red(err));
+          console.log(
+            log.green(`${METHOD.toLowerCase()}: ${fileName} created`)
+          );
+        });
+      }
+    });
+  };
+
+  CREATE();
+} catch (error) {
+  console.log(error.message);
+}

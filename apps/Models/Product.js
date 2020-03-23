@@ -1,6 +1,8 @@
 const { Sequelize, sequelize } = require("../../app_config/database");
 const Model = Sequelize.Model;
 const { Store } = require("./Store");
+const { ProductImage } = require("./ProductImage");
+const { ProductType } = require("./ProductType");
 
 class Product extends Model {
   async findByProId(proId, { exclude = [] }) {
@@ -26,14 +28,14 @@ class Product extends Model {
 
   async fetchhAllWithStore({ exclude = [] }) {
     return await Product.findAll({
-      include: Store,
+      include: [Store, ProductImage,ProductType],
       attributes: { exclude: exclude }
     });
   }
 
   async findByProIdWithStore(proId, { exclude = [] }) {
     return await Product.findOne({
-      include: Store,
+      include:[Store, ProductImage,ProductType],
       attributes: { exclude: exclude },
       where: { proId: proId }
     });
@@ -90,10 +92,22 @@ Product.init(
   { sequelize, modelName: "products" }
 );
 
-// STORE relationship
+// STORE Relationship
 Product.belongsTo(Store, {
   targetKey: "storeId",
   foreignKey: "storeId"
+});
+
+// ProductImage Relationship
+Product.hasMany(ProductImage, {
+  targetKey: "proId",
+  foreignKey: "proId"
+});
+
+// STORE Relationship
+Product.belongsTo(ProductType, {
+  targetKey: "proTypeId",
+  foreignKey: "proTypeId"
 });
 
 module.exports = {
