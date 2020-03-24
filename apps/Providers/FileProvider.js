@@ -8,16 +8,18 @@ class FileProvider {
   saveMultipleImage({ path }) {
     const storage = multer.diskStorage({
       destination: function(req, file, cb) {
-        const savePath = CONSATNTS.defaultImgPath + path;
+        const savePath = path;
         if (!fs.existsSync(savePath)) {
           fs.mkdirSync(savePath);
         }
+        req.fileSavePAth = savePath;
         cb(null, savePath);
       },
       filename: function(req, file, cb) {
         cb(null, file.originalname);
       }
     });
+
     return multer({ storage: storage });
   }
 

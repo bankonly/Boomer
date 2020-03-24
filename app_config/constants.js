@@ -1,5 +1,6 @@
 const CONSTANTS = {
-  defaultImgPath: "./assets/images/",
+  publicPath:"public",
+  defaultImgPath: "./public/images/",
   productImgPath: "products/",
   imageTypeAccept: process.env.IMAGE_TYPE_ACCEPT.split(",")
 };

@@ -1,16 +1,23 @@
-const Express = require("express");
-const app = Express();
+const express = require("express");
+const app = express();
 
-require("./app_config/start_up_config"); // load ENV variables
-require("./app_config/app")(app); // Load default Config
+/* LOAD ALL DEFAULT CONFIGURATIONS */
+require("./app_config/start_up_config");
+require("./app_config/app")(app);
 
-const { sequelize } = require("./app_config/database"); // Database config
+/* LOAD IMAGE PATH */
+app.use('/public',express.static(__dirname + "/public"));
 
-require("./routes/webApi")(app); // ROUTE IMPORTED = webApi
+/* LOAD DATABASE CONFIG */
+const { sequelize } = require("./app_config/database"); 
 
-sequelize.sync(); // Create table if not exist
-// sequelize.sync({force:true}); // Create table if not exist
+/* ROUTES */
+require("./routes/webApi")(app); /* webApi */
 
+/* CREATE TABLE IF NOT EXIST */ 
+sequelize.sync();
+
+/* RUN PROGRAM BASE ON ENV PORT */
 app.listen(process.env.APP_PORT, e =>
   console.log("CONNECTED TO ", process.env.APP_PORT)
 );
