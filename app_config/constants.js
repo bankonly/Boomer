@@ -2,7 +2,7 @@ const CONSTANTS = {
   publicPath:"public",
   defaultImgPath: "./public/images/",
   productImgPath: "products/",
-  imageTypeAccept: process.env.IMAGE_TYPE_ACCEPT.split(",")
+  imageTypeAccept: process.env.IMAGE_TYPE_ACCEPT
 };
 
 module.exports = CONSTANTS;
