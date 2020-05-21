@@ -10,24 +10,9 @@ const READFILENAME = "Resource.txt.example";
 const DECODETYPE = "utf8";
 
 try {
-  const params = process.argv[process.argv.length - 1].split(":");
-  if (params.length < 2) {
-    console.log(
-      log.red(
-        METHOD.toLowerCase() + `: lease correct command resource:{controller}`
-      )
-    );
-    return;
-  }
-  var fileName = params[0];
+  const params = process.argv[process.argv.length - 1];
+  var fileName = params;
   const controllerName = params[1];
-  // check if file name is already exist or not
-  if (!fs.existsSync(controllerPath + controllerName + "." + FILETYPE)) {
-    console.log(
-      log.red(METHOD.toLowerCase() + `: ${controllerName} is not exist`)
-    );
-    return;
-  }
 
   const commands = fileName.split("/");
 
@@ -52,7 +37,6 @@ try {
     fs.readFile(READPATH + READFILENAME, DECODETYPE, (err, data) => {
       if (err) console.log(log.red(err));
       else {
-        data = data.replace(/ControllerName/g, controllerName);
         fs.writeFile(`${WRITEPATH}${fileName}.${FILETYPE}`, data, err => {
           if (err) console.log(log.red(err));
           console.log(

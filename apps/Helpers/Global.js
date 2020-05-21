@@ -11,7 +11,17 @@ function isInt(intNumber) {
   return true;
 }
 
+const use = (pathToFileName) => {
+  return {
+    formController: () => require("../Controllers/" + pathToFileName),
+    formMiddleware: () => require("../Middlewares/" + pathToFileName),
+    formModel: () => require("../Models/" + pathToFileName),
+    formProvider: () => require("../Providers/" + pathToFileName),
+  };
+};
+
 module.exports = {
   isFloat,
-  isInt
+  isInt,
+  use,
 };

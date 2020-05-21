@@ -4,7 +4,7 @@ const ExchProvider = require("../Providers/ExchangeRateProvider");
 const { ExchangeRate, ExchangeRateClass } = require("../Models/ExchangeRate");
 
 class ExchangeRateController extends Controller {
-  // @GET REQUEST
+
   async get() {
     try {
       const exchData = await ExchangeRateClass.fetchAll({});
@@ -14,7 +14,6 @@ class ExchangeRateController extends Controller {
     }
   }
 
-  // @POST REQUEST
   async post() {
     try {
       const body = {
@@ -38,7 +37,6 @@ class ExchangeRateController extends Controller {
     }
   }
 
-  // @GET/{id} REQUEST
   async getWithParam() {
     try {
       const id = this.params.id;
@@ -49,7 +47,6 @@ class ExchangeRateController extends Controller {
     }
   }
 
-  // @PUT/{id} REQUEST
   async update() {
     const id = this.params.id;
     try {
@@ -76,7 +73,6 @@ class ExchangeRateController extends Controller {
     }
   }
 
-  // @DELETE/{id} REQUEST
   async delete() {
     try {
       const id = this.params.id;

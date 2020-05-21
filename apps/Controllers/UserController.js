@@ -4,7 +4,7 @@ const Controller = require("./Controller");
 const { UserClass, User } = require("../Models/User");
 const UserProvider = require("../Providers/UserProvider");
 class UserController extends Controller {
-  // @GET REQUEST
+
   async get() {
     try {
       const fetchAll = await UserClass.fetchAll({});
@@ -42,7 +42,7 @@ class UserController extends Controller {
     }
   }
 
-  // @POST REQUEST
+
   async post() {
     try {
       const body = {
@@ -61,7 +61,7 @@ class UserController extends Controller {
     }
   }
 
-  // @GET/{id} REQUEST
+
   getWithParam() {
     const id = this.params.id;
     this.response(`GET/${id} REQUEST`);
@@ -73,7 +73,7 @@ class UserController extends Controller {
     this.response(isUpdated);
   }
 
-  // @DELETE/{id} REQUEST
+
   delete() {
     const id = this.params.id;
     this.response({});

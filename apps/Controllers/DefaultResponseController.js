@@ -1,5 +1,4 @@
 class SimpleResponseController {
-  // duplicated
   duplicated({ data = {}, msg = "duplicated", status = false, code = 409 }) {
     return {
       msg: msg,
@@ -9,7 +8,6 @@ class SimpleResponseController {
     };
   }
 
-  // success
   success({ data = {}, msg = "success", status = true, code = 200 }) {
     return {
       msg: msg,
@@ -19,7 +17,6 @@ class SimpleResponseController {
     };
   }
 
-  // deleted
   deleted({ data = {}, msg = "deleted success", status = true, code = 200 }) {
     return {
       msg: msg,
@@ -29,7 +26,6 @@ class SimpleResponseController {
     };
   }
 
-  // updated
   updated({ data = {}, msg = "updated success", status = true, code = 200 }) {
     return {
       msg: msg,
@@ -39,7 +35,6 @@ class SimpleResponseController {
     };
   }
 
-  // created
   created({ data = {}, msg = "created success", status = true, code = 200 }) {
     return {
       msg: msg,
@@ -49,7 +44,6 @@ class SimpleResponseController {
     };
   }
 
-  // error
   error({ data = {}, msg = "something wrong", status = false, code = 500 }) {
     return {
       msg: msg,
@@ -59,7 +53,6 @@ class SimpleResponseController {
     };
   }
 
-  // badRequest
   badRequest({ data = {}, msg = "badRequest", status = false, code = 400 }) {
     return {
       msg: msg,
@@ -69,7 +62,6 @@ class SimpleResponseController {
     };
   }
 
-  // notFound
   notFound({ data = {}, msg = "notFound", status = false, code = 404 }) {
     return {
       msg: msg,
@@ -79,7 +71,6 @@ class SimpleResponseController {
     };
   }
 
-  // unAuthorized
   unAuthorized({
     data = {},
     msg = "unAuthorized",
@@ -94,7 +85,6 @@ class SimpleResponseController {
     };
   }
 
-  // notAllowed
   notAllowed({ data = {}, msg = "notAllowed", status = false, code = 405 }) {
     return {
       msg: msg,
@@ -104,7 +94,6 @@ class SimpleResponseController {
     };
   }
 
-  // outPut
   outPut({ data = {}, msg = "success", status = true, code = 200 }) {
     return {
       msg: msg,
@@ -114,7 +103,6 @@ class SimpleResponseController {
     };
   }
 
-  // outPut
   somethingWrong({
     data = {},
     msg = "something wrong",

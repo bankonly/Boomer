@@ -12,7 +12,7 @@ class ControllerName extends Controller {
     this.response = Res(res).success;
   }
 
-  // @GET REQUEST
+
   get() {
     try {
       this.response({});
@@ -21,7 +21,7 @@ class ControllerName extends Controller {
     }
   }
 
-  // @POST REQUEST
+
   post() {
     try {
       this.response({});
@@ -30,7 +30,7 @@ class ControllerName extends Controller {
     }
   }
 
-  // @GET/{id} REQUEST
+
   getWithParam() {
     const id = this.params.id;
     try {
@@ -40,7 +40,7 @@ class ControllerName extends Controller {
     }
   }
 
-  // @PUT/{id} REQUEST
+
   update() {
     const id = this.params.id;
     try {
@@ -50,7 +50,7 @@ class ControllerName extends Controller {
     }
   }
 
-  // @DELETE/{id} REQUEST
+
   delete() {
     const id = this.params.id;
     try {

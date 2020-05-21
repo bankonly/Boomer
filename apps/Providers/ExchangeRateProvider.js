@@ -2,17 +2,18 @@ const { ExchangeRateClass, ExchangeRate } = require("../Models/ExchangeRate");
 const Res = require("../Controllers/DefaultResponseController");
 
 class ExchangeRateProvider {
+  constructor() {
+    this.msg = null;
+  }
+
   // requried params { exchName, exchSymbol, exchRate, exchCountry }
   validateCreateObj(createObj) {
-    if (!createObj.exchName)
-      return Res.badRequest({ msg: "exchName is requried" });
-    if (!createObj.exchSymbol)
-      return Res.badRequest({ msg: "exchSymbol is requried" });
-    if (!createObj.exchRate)
-      return Res.badRequest({ msg: "exchRate is requried" });
-    if (!createObj.exchCountry)
-      return Res.badRequest({ msg: "exchCountry is not matched" });
-    return Res.success({});
+    if (!createObj.exchName) this.msg = "exchName is requried";
+    if (!createObj.exchSymbol) this.msg = "exchSymbol is requried";
+    if (!createObj.exchRate) this.msg = "exchRate is requried";
+    if (!createObj.exchCountry) this.msg = "exchCountry is not matched";
+    if (this.msg == null) return Res.success({});
+    return Res.badRequest({ msg: this.msg });
   }
 
   async createExchRate({ exchName, exchSymbol, exchRate, exchCountry }) {
