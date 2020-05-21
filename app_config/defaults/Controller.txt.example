@@ -1,5 +1,6 @@
-const Res = require("./ResponseController");
+const { use } = require("../Helpers/Global");
 const Controller = require("./Controller");
+const Res = use("ResponseController").formController();
 
 class ControllerName extends Controller {
   constructor(req, res, next) {

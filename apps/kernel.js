@@ -8,6 +8,7 @@ module.exports = {
      */
     api: "/api",
     admin: "/admin",
+    unAuthorizeApi:"/app"
   },
   middlewareGroup: {
     ApiAuth: [

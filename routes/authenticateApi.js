@@ -8,7 +8,7 @@ const UserController = use("UserController").formController();
 
 module.exports = (app) => {
   /* ----- UserController ----- */
-  router.get("/user/me", (...args) => UserController(...args).me());
+  router.get("/user/me", (...args) => UserController(...args).whoami());
   router.put("/user", (...args) => UserController(...args).update());
 
   /* Excute "/api" as web service */
