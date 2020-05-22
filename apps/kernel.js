@@ -3,8 +3,8 @@ const { use } = require("./Helpers/Global");
 module.exports = {
   routeName: {
     /*
-     * @ Register routeName Middleware
-     * return @string
+     * Register routeName Middleware
+     * @return string
      */
     api: "/api", //  authenticate api
     app: "/app", // Unauthenticate route

@@ -1,10 +1,9 @@
-const Res = require("./ResponseController");
+const { use } = require("../Helpers/Global");
 const Controller = require("./Controller");
-
-const { UserClass, User } = require("../Models/User");
-const UserProvider = require("../Providers/UserProvider");
+const Res = use("ResponseController").formController();
+const UserProvider = use("UserProvider").formProvider();
+const { UserClass, User } = use("User").formModel();
 class UserController extends Controller {
-
   async getAllUser() {
     try {
       const fetchAll = await UserClass.fetchAll({});
@@ -31,7 +30,7 @@ class UserController extends Controller {
         phoneNumber: this.req.body.phoneNumber,
         password: this.req.body.password
       };
-      
+
       const isValidate = UserProvider.validateLoginObj(body);
       if (isValidate.code !== 200) return this.send.badRequest(isValidate);
 
@@ -41,7 +40,6 @@ class UserController extends Controller {
       this.responseError({ msg: err.message });
     }
   }
-
 
   async register() {
     try {
@@ -61,7 +59,6 @@ class UserController extends Controller {
     }
   }
 
-
   getWithParam() {
     const id = this.params.id;
     this.response(`GET/${id} REQUEST`);
@@ -72,7 +69,6 @@ class UserController extends Controller {
     const isUpdated = await UserProvider.update(this.req);
     this.response(isUpdated);
   }
-
 
   delete() {
     const id = this.params.id;
