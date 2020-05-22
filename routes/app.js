@@ -7,9 +7,9 @@ const UserController = require('../apps/Controllers/UserController');
 
 module.exports = (app) => {
   /* ----- UserController ----- */
-  router.get("/user/me", (...args) => UserController(...args).whoami());
-  router.put("/user", (...args) => UserController(...args).update());
+  router.post("/login", (...args) => UserController(...args).login());
+  router.post("/register", (...args) => UserController(...args).register());
 
-  /* Excute "/api" as web service */
-  app.use(routeName.api, middlewareGroup.ApiAuth, router);
+  /* Excute "/app" as web service unauthenticate */
+  app.use(routeName.app, router);
 };

@@ -5,7 +5,7 @@ const { UserClass, User } = require("../Models/User");
 const UserProvider = require("../Providers/UserProvider");
 class UserController extends Controller {
 
-  async get() {
+  async getAllUser() {
     try {
       const fetchAll = await UserClass.fetchAll({});
       this.response({ data: fetchAll });
@@ -14,7 +14,7 @@ class UserController extends Controller {
     }
   }
 
-  async me() {
+  async whoami() {
     try {
       const authData = await UserProvider.getAuth({
         userId: this.req.auth.userId
@@ -43,7 +43,7 @@ class UserController extends Controller {
   }
 
 
-  async post() {
+  async register() {
     try {
       const body = {
         phoneNumber: this.body.phoneNumber,

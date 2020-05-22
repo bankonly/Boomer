@@ -6,8 +6,9 @@ module.exports = {
      * @ Register routeName Middleware
      * return @string
      */
-    api: "/api",
-    admin: "/admin",
+    api: "/api", //  authenticate api
+    app: "/app", // Unauthenticate route
+    admin: "/admin",  // authenticate api admin
   },
   middlewareGroup: {
     ApiAuth: [

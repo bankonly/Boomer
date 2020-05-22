@@ -13,7 +13,8 @@ app.use("/public", express.static(__dirname + "/public"));
 const { sequelize } = require("./app_config/database");
 
 /* ROUTES */
-require("./routes/api")(app); /* webApi */
+require("./routes/api")(app); /* api */
+require("./routes/app")(app); /* app api */
 
 /* CREATE TABLE IF NOT EXIST */
 sequelize.sync();
