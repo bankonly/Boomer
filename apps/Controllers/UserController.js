@@ -1,8 +1,7 @@
-const { use } = require("../Helpers/Global");
 const Controller = require("./Controller");
-const Res = use("ResponseController").formController();
-const UserProvider = use("UserProvider").formProvider();
-const { UserClass, User } = use("User").formModel();
+const Res = require('./ResponseController');
+const UserProvider = require('../Providers/UserProvider');
+const { UserClass, User } = require('../Models/User')
 class UserController extends Controller {
   async getAllUser() {
     try {
