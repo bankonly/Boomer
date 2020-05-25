@@ -186,7 +186,8 @@ class SimpleResponseController {
  * @returns
  * @memberof SimpleResponseController
  */
-	somethingWrong({ data = {}, msg = 'something wrong', status = false, code = 500 }) {
+	somethingWrong({ data = {}, msg = 'something wrong', status = false, code = 500,error }) {
+		console.log(error.message)
 		return {
 			msg: msg,
 			status: status,

@@ -45,5 +45,5 @@ try {
 
   CREATE(); // RUN FUNCTION
 } catch (error) {
-  console.log(error.message);
+  
 }

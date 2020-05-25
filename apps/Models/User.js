@@ -1,6 +1,9 @@
 const { Sequelize, sequelize } = require("../../app_config/database");
+const {
+  fillable,
+  tableName,
+} = require("../../databases/migrations/20200523014755-User");
 const Model = Sequelize.Model;
-
 class User extends Model {
   async findByUserId(userId) {
     return User.findByPk(userId);
@@ -15,91 +18,58 @@ class User extends Model {
     return object;
   }
 
+  async findByNameOrPhoneOrEmail(nameOrPhone) {
+    return User.findOne({
+      where: {
+        [Sequelize.Op.or]: [
+          { phoneNumber: nameOrPhone },
+          { firstName: nameOrPhone },
+          { email: nameOrPhone },
+        ],
+      },
+    });
+  }
+
   async findByPhoneNumber(phoneNumber) {
     return User.findOne({
-      where: { phoneNumber: phoneNumber }
+      where: { phoneNumber: phoneNumber },
     });
   }
 
   tokenObject(userObj) {
     return {
-      userId: userObj.userId,
-      phoneNumber: userObj.phoneNumber
+      userId: userObj.id,
+      phoneNumber: userObj.phoneNumber,
+      loginTime: userObj.loginTime,
     };
   }
 
   async findByEmail(email) {
     return User.findOne({
-      where: { email: email }
+      where: { email: email },
     });
   }
 
-  async fetchAll({ remove = ["password", "role"] }) {
-    return User.findAll({ attributes: { exclude: remove } });
+  async fetchAll({
+    remove = ["password", "role"],
+    role = [0, 1],
+    limit = 300,
+  }) {
+    return User.findAll({
+      attributes: { exclude: remove },
+      where: { role: { [Sequelize.Op.in]: role } },
+      limit: limit,
+    });
   }
 }
 
-User.init(
-  {
-    userId: {
-      type: Sequelize.BIGINT,
-      autoIncrement: true,
-      primaryKey: true,
-      allowNull: false
-    },
-    firstName: {
-      type: Sequelize.STRING(40),
-      allowNull: true
-    },
-    lastName: {
-      type: Sequelize.STRING(40),
-      allowNull: true
-    },
-    role: {
-      type: Sequelize.INTEGER(1),
-      allowNull: false,
-      defaultValue: 0,
-      comment: "0 = normal user ,1 admin user"
-    },
-    avatar: {
-      type: Sequelize.TEXT,
-      allowNull: true
-    },
-    phoneNumber: {
-      type: Sequelize.STRING(20),
-      allowNull: false
-    },
-    identityCard: {
-      type: Sequelize.STRING(30),
-      allowNull: true
-    },
-    email: {
-      type: Sequelize.STRING(40),
-      allowNull: true
-    },
-    password: {
-      type: Sequelize.STRING(100),
-      allowNull: false
-    },
-    createdAt: {
-      type: Sequelize.DATE,
-      allowNull: true,
-      defaultValue: Sequelize.fn("NOW")
-    },
-    updatedAt: {
-      type: Sequelize.DATE,
-      allowNull: true,
-      defaultValue: Sequelize.fn("NOW")
-    },
-    deletedAt: {
-      type: Sequelize.DATE,
-      allowNull: true
-    }
-  },
-  { sequelize, modelName: "users" }
-);
+User.init(fillable(Sequelize), {
+  sequelize,
+  modelName: "user",
+  tableName: tableName,
+});
 
 module.exports = {
   UserClass: new User(),
-  User
+  User,
 };

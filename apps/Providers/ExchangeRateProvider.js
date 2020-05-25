@@ -2,30 +2,27 @@ const { ExchangeRateClass, ExchangeRate } = require("../Models/ExchangeRate");
 const Res = require("../Controllers/DefaultResponseController");
 
 class ExchangeRateProvider {
-  constructor() {
-    this.msg = null;
-  }
-
-  // requried params { exchName, exchSymbol, exchRate, exchCountry }
+  // requried params { name, symbol, rate, country }
   validateCreateObj(createObj) {
-    if (!createObj.exchName) this.msg = "exchName is requried";
-    if (!createObj.exchSymbol) this.msg = "exchSymbol is requried";
-    if (!createObj.exchRate) this.msg = "exchRate is requried";
-    if (!createObj.exchCountry) this.msg = "exchCountry is not matched";
-    if (this.msg == null) return Res.success({});
-    return Res.badRequest({ msg: this.msg });
+    var msg = null;
+    if (!createObj.name) msg = "name is requried";
+    else if (!createObj.symbol) msg = "symbol is requried";
+    else if (!createObj.rate) msg = "rate is requried";
+    else if (!createObj.country) msg = "country is not matched";
+    if (msg == null) return Res.success({});
+    return Res.badRequest({ msg: msg });
   }
 
-  async createExchRate({ exchName, exchSymbol, exchRate, exchCountry }) {
+  async createrate({ name, symbol, rate, country }) {
     try {
       // Check Exchange Rate name is already exist or not
-      const isNameExist = await ExchangeRateClass.findByExchName(exchName, {});
+      const isNameExist = await ExchangeRateClass.findByExchName(name, {});
       if (isNameExist !== null) {
-        return Res.duplicated({ msg: "Name is Already Exist" });
+        return Res.duplicated({ msg: "name is already exist" });
       }
 
       // Prepare data to insert
-      const insertData = { exchName, exchSymbol, exchRate, exchCountry };
+      const insertData = { name, symbol, rate, country };
 
       const createExch = await ExchangeRate.create(insertData); // Create Exchange Rate Data
       if (!createExch) {
@@ -33,14 +30,13 @@ class ExchangeRateProvider {
       }
       return Res.success({ data: createExch.dataValues });
     } catch (error) {
-      console.log(error.message);
-      return Res.somethingWrong({ msg: error.message });
+      return Res.somethingWrong({ error: error });
     }
   }
 
-  async destroyExchRate({ exchId }) {
+  async destroyrate({ id }) {
     try {
-      const isCreateData = await ExchangeRateClass.findByExchId(exchId, {});
+      const isCreateData = await ExchangeRateClass.findByExchId(id, {});
       if (isCreateData == null) {
         return Res.notFound({ msg: "This ID is not exist" });
       }
@@ -50,50 +46,44 @@ class ExchangeRateProvider {
       }
       return Res.error({ msg: "Can not delete" });
     } catch (error) {
-      console.log(error.message);
-      return Res.somethingWrong({ msg: error.message });
+      return Res.somethingWrong({ error: error });
     }
   }
 
-  async updateExchRate(
-    { exchName, exchSymbol, exchRate, exchCountry },
-    { exchId }
-  ) {
+  async updaterate({ name, symbol, rate, country }, { id }) {
     try {
-      const isExchData = await ExchangeRateClass.findByExchId(exchId, {});
+      const isExchData = await ExchangeRateClass.findByExchId(id, {});
       if (isExchData == null) {
         return Res.duplicated({ msg: "This ID is not exist" });
       }
 
       // Check Exchange Rate name is already exist or not
-      const isNameExist = await ExchangeRateClass.findByExchName(exchName, {});
-      if (isNameExist !== null && isNameExist.exchName !== exchName) {
+      const isNameExist = await ExchangeRateClass.findByExchName(name, {});
+      if (isNameExist !== null && isNameExist.name !== name) {
         return Res.duplicated({ msg: "Name is Already Exist" });
       }
 
       // Prepare data to insert
-      const updateData = { exchName, exchSymbol, exchRate, exchCountry };
+      const updateData = { name, symbol, rate, country };
 
       if (!isExchData.update(updateData)) {
         return Res.badRequest({ msg: "Can not create Check Your Input" });
       }
       return Res.success({ data: isExchData.dataValues });
     } catch (error) {
-      console.log(error.message);
-      return Res.somethingWrong({ msg: error.message });
+      return Res.somethingWrong({ error: error });
     }
   }
 
-  async getExchRate({ exchId }) {
+  async getrate({ id }) {
     try {
-      const isCreateData = await ExchangeRateClass.findByExchId(exchId, {});
+      const isCreateData = await ExchangeRateClass.findByExchId(id, {});
       if (isCreateData == null) {
         return Res.duplicated({ msg: "This ID is not exist" });
       }
       return Res.success({ data: isCreateData.dataValues });
     } catch (error) {
-      console.log(error.message);
-      return Res.somethingWrong({ msg: error.message });
+      return Res.somethingWrong({ error: error });
     }
   }
 }

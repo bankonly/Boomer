@@ -7,23 +7,23 @@ class ExchangeRate extends Model {
     return await ExchangeRate.findAll({ attributes: { exclude: exclude } });
   }
 
-  async findByExchId(exchId, { exclude = [] }) {
+  async findByExchId(id, { exclude = [] }) {
     return await ExchangeRate.findOne({
-      where: { exchId: exchId },
+      where: { id: id },
       attributes: { exclude: exclude }
     });
   }
 
-  async findByExchName(exchName, { exclude = [] }) {
+  async findByExchName(name, { exclude = [] }) {
     return await ExchangeRate.findOne({
-      where: { exchName: exchName },
+      where: { name: name },
       attributes: { exclude: exclude }
     });
   }
 
-  async findByExchCountry(exchCountry, { exclude = [] }) {
+  async findByExchCountry(country, { exclude = [] }) {
     return await ExchangeRate.findOne({
-      where: { exchCountry: exchCountry },
+      where: { country: country },
       attributes: { exclude: exclude }
     });
   }
@@ -31,25 +31,25 @@ class ExchangeRate extends Model {
 
 ExchangeRate.init(
   {
-    exchId: {
+    id: {
       type: Sequelize.BIGINT,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false
     },
-    exchName: {
+    name: {
       type: Sequelize.STRING(10),
       allowNull: false
     },
-    exchSymbol: {
+    symbol: {
       type: Sequelize.STRING(2),
       allowNull: false
     },
-    exchRate: {
+    rate: {
       type: Sequelize.DECIMAL(10, 2),
       allowNull: false
     },
-    exchCountry: {
+    country: {
       type: Sequelize.STRING(30),
       allowNull: false
     },
@@ -68,7 +68,7 @@ ExchangeRate.init(
       allowNull: true
     }
   },
-  { sequelize, modelName: "exchangeRates" }
+  { sequelize, modelName: "exchangeRate" }
 );
 
 module.exports = {

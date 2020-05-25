@@ -1,21 +1,29 @@
 const Controller = require("./Controller");
-const Res = require('./ResponseController');
-const UserProvider = require('../Providers/UserProvider');
-const { UserClass, User } = require('../Models/User')
+const Res = require("./ResponseController");
+const UserProvider = require("../Providers/UserProvider");
+const { UserClass, User } = require("../Models/User");
+const CONSTANT = require("../../app_config/constants");
+
 class UserController extends Controller {
-  async getAllUser() {
+  async getUser() {
     try {
-      const fetchAll = await UserClass.fetchAll({});
-      this.response({ data: fetchAll });
+      const fetchAll = await UserProvider.getUser({
+        role: this.body.role,
+        limit: CONSTANT.fetchLimit,
+        authRole: this.req.auth.role,
+      });
+
+      this.response(fetchAll);
     } catch (err) {
-      this.responseError({ msg: err.message });
+      console.log(err.message);
+      this.responseError({});
     }
   }
 
   async whoami() {
     try {
       const authData = await UserProvider.getAuth({
-        userId: this.req.auth.userId
+        userId: this.req.auth.userId,
       });
       this.response(authData);
     } catch (err) {
@@ -26,8 +34,8 @@ class UserController extends Controller {
   async login() {
     try {
       const body = {
-        phoneNumber: this.req.body.phoneNumber,
-        password: this.req.body.password
+        author: this.req.body.author,
+        password: this.req.body.password,
       };
 
       const isValidate = UserProvider.validateLoginObj(body);
@@ -45,7 +53,7 @@ class UserController extends Controller {
       const body = {
         phoneNumber: this.body.phoneNumber,
         password: this.body.password,
-        confirmPassword: this.body.confirmPassword
+        confirmPassword: this.body.confirmPassword,
       };
 
       const isValidate = UserProvider.validateResgisterObj(body);

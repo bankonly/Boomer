@@ -1,23 +1,24 @@
 const express = require("express");
 const app = express();
+const router = require("express").Router();
 const log = require("chalk");
+
 
 /* LOAD ALL DEFAULT CONFIGURATIONS */
 require("./app_config/start_up_config");
 require("./app_config/app")(app);
 
+/* FILE IMPORTED Store Midlleares and config for route */
+const kernel = require("./apps/kernel");
+
+
 /* LOAD IMAGE PATH */
 app.use("/public", express.static(__dirname + "/public"));
 
-/* LOAD DATABASE CONFIG */
-const { sequelize } = require("./app_config/database");
-
 /* ROUTES */
-require("./routes/api")(app); /* api */
-require("./routes/app")(app); /* app api */
-
-/* CREATE TABLE IF NOT EXIST */
-sequelize.sync();
+require("./routes/api")(app,router,kernel); /* api */
+require("./routes/app")(app,router,kernel); /* app api */
+require("./routes/admin")(app,router,kernel); /* admin api */
 
 try {
   /* RUN PROGRAM BASE ON ENV PORT */

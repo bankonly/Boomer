@@ -17,16 +17,16 @@ class ExchangeRateController extends Controller {
   async post() {
     try {
       const body = {
-        exchName: this.body.exchName,
-        exchSymbol: this.body.exchSymbol,
-        exchRate: this.body.exchRate,
-        exchCountry: this.body.exchCountry
+        name: this.body.name,
+        symbol: this.body.symbol,
+        rate: this.body.rate,
+        country: this.body.country
       };
 
       const isValidate = ExchProvider.validateCreateObj(body);
       if (isValidate.code !== 200) return this.response(isValidate);
 
-      const createData = await ExchProvider.createExchRate(body);
+      const createData = await ExchProvider.createrate(body);
       if (createData.code == 200) {
         delete createData.data.createdAt;
         delete createData.data.updatedAt;
@@ -40,7 +40,7 @@ class ExchangeRateController extends Controller {
   async getWithParam() {
     try {
       const id = this.params.id;
-      const exchData = await ExchProvider.getExchRate({ exchId: id });
+      const exchData = await ExchProvider.getrate({ id: id });
       this.response(exchData);
     } catch ({ message }) {
       this.responseError({ msg: message });
@@ -51,17 +51,17 @@ class ExchangeRateController extends Controller {
     const id = this.params.id;
     try {
       const body = {
-        exchName: this.body.exchName,
-        exchSymbol: this.body.exchSymbol,
-        exchRate: this.body.exchRate,
-        exchCountry: this.body.exchCountry
+        name: this.body.name,
+        symbol: this.body.symbol,
+        rate: this.body.rate,
+        country: this.body.country
       };
 
       const isValidate = ExchProvider.validateCreateObj(body);
       if (isValidate.code !== 200) return this.response(isValidate);
 
-      const updateData = await ExchProvider.updateExchRate(body, {
-        exchId: id
+      const updateData = await ExchProvider.updaterate(body, {
+        id: id
       });
       if (updateData.code == 200) {
         delete updateData.data.createdAt;
@@ -76,7 +76,7 @@ class ExchangeRateController extends Controller {
   async delete() {
     try {
       const id = this.params.id;
-      const exchData = await ExchProvider.destroyExchRate({ exchId: id });
+      const exchData = await ExchProvider.destroyrate({ id: id });
       this.response(exchData);
     } catch ({ message }) {
       this.responseError({ msg: message });

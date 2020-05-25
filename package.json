@@ -11,7 +11,6 @@
     "make:provider": "node ./scripts/provider_script.js",
     "make:middleware": "node ./scripts/middleware_script.js",
     "make:command": "node ./scripts/command_script.js",
-    "db:run": "node ./scripts/database_script.js",
     "golion": "nodemon index"
   },
   "author": "bank",
