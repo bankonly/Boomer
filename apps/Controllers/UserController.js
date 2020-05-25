@@ -1,37 +1,41 @@
 const Controller = require("./Controller");
-const Res = require("./ResponseController");
+const Res = require("./DefaultResponseController");
 const UserProvider = require("../Providers/UserProvider");
 const { UserClass, User } = require("../Models/User");
 const CONSTANT = require("../../app_config/constants");
+const { log } = require("../Providers/ActivityLogProvider");
 
 class UserController extends Controller {
   async getUser() {
+    var response = Res.success({});
     try {
-      const fetchAll = await UserProvider.getUser({
+      response = await UserProvider.getUser({
         role: this.body.role,
         limit: CONSTANT.fetchLimit,
         authRole: this.req.auth.role,
       });
-
-      this.response(fetchAll);
     } catch (err) {
-      console.log(err.message);
-      this.responseError({});
+      response = Res.somethingWrong({ error: err });
     }
+    log(this.req, response);
+    return this.response(response);
   }
 
   async whoami() {
+    var response = Res.success({});
     try {
-      const authData = await UserProvider.getAuth({
+      response = await UserProvider.getAuth({
         userId: this.req.auth.userId,
       });
-      this.response(authData);
     } catch (err) {
-      this.responseError({ msg: err.message });
+      response = Res.somethingWrong({ error: err });
     }
+    log(this.req, response);
+    return this.response(response);
   }
 
   async login() {
+    var response = Res.success({});
     try {
       const body = {
         author: this.req.body.author,
@@ -39,16 +43,20 @@ class UserController extends Controller {
       };
 
       const isValidate = UserProvider.validateLoginObj(body);
-      if (isValidate.code !== 200) return this.send.badRequest(isValidate);
-
-      const authData = await UserProvider.login(body);
-      this.response(authData);
+      if (isValidate.code !== 200) {
+        response = isValidate;
+      } else {
+        response = await UserProvider.login(body);
+      }
     } catch (err) {
-      this.responseError({ msg: err.message });
+      response = Res.somethingWrong({ error: err });
     }
+    log(this.req, response);
+    return this.response(response);
   }
 
   async register() {
+    var response = Res.success({});
     try {
       const body = {
         phoneNumber: this.body.phoneNumber,
@@ -57,13 +65,16 @@ class UserController extends Controller {
       };
 
       const isValidate = UserProvider.validateResgisterObj(body);
-      if (isValidate.code !== 200) return this.send.badRequest(isValidate);
-
-      const isRegistered = await UserProvider.register(body);
-      this.response(isRegistered);
+      if (isValidate.code !== 200) {
+        response = tisValidate;
+      } else {
+        response = await UserProvider.register(body);
+      }
     } catch (err) {
-      this.responseError({ msg: err.message });
+      response = Res.somethingWrong({ error: err });
     }
+    log(this.req, response);
+    return this.response(response);
   }
 
   getWithParam() {

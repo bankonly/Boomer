@@ -2,12 +2,17 @@
 
 const UserCtl = require("../apps/Controllers/UserController");
 const ExcCtl = require("../apps/Controllers/ExchangeRateController");
+const ActCtl = require("../apps/Controllers/ActivityLogController");
 
 module.exports = (app, router, kernel) => {
   /* ----- UserController ----- */
   router.get("/me", (...args) => UserCtl(...args).whoami());
   router.put("/updateProfile", (...args) => UserCtl(...args).update());
   router.get("/getAllUser", (...args) => UserCtl(...args).getUser());
+
+  /* ----- ActivityLogController ----- */
+  router.get("/getLog", (...args) => ActCtl(...args).getLog());
+
   /* ----- ExchangeRateController ----- */
   router.get("/exchangeRate", (...args) => ExcCtl(...args).get());
   router.post("/exchangeRate", (...args) => ExcCtl(...args).post());

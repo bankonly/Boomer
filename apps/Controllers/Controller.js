@@ -1,4 +1,5 @@
 const Res = require("./ResponseController");
+const DefaultRes = require("./DefaultResponseController");
 
 class Controller {
   constructor(req, res, next) {
@@ -9,7 +10,9 @@ class Controller {
     this.body = req.body;
     this.send = Res(res);
     this.response = Res(res).success;
-    this.responseError = Res(res).error;
+    this.responseError = Res(res).somethingWrong;
+    this.success = DefaultRes.success;
+    this.somethingWrong = DefaultRes.somethingWrong;
   }
 }
 

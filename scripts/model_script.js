@@ -44,7 +44,7 @@ try {
       if (err) console.log(log.red(err));
       else {
         data = data.replace(/DefineModelName/g, fileName);
-        data = data.replace(/TableName/g, tableName);
+        data = data.replace(/ModelName/g, tableName);
         fs.writeFile(`${WRITEPATH}${fileName}.${FILETYPE}`, data, err => {
           if (err) console.log(log.red(err));
           console.log(

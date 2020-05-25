@@ -9,7 +9,7 @@ class ResponseController {
       message: data + " " + msg,
       status: status,
       code: code,
-      data: data
+      data: data,
     });
   }
 
@@ -19,7 +19,7 @@ class ResponseController {
       message: msg,
       status: status,
       code: code,
-      data: data
+      data: data,
     });
   }
 
@@ -29,7 +29,7 @@ class ResponseController {
       message: data + " " + msg,
       status: status,
       code: code,
-      data: data
+      data: data,
     });
   }
 
@@ -39,7 +39,7 @@ class ResponseController {
       message: data + " " + msg,
       status: status,
       code: code,
-      data: data
+      data: data,
     });
   }
 
@@ -49,7 +49,7 @@ class ResponseController {
       message: data + " " + msg,
       status: status,
       code: code,
-      data: data
+      data: data,
     });
   }
 
@@ -59,7 +59,7 @@ class ResponseController {
       message: msg,
       status: status,
       code: code,
-      data: data
+      data: data,
     });
   }
 
@@ -69,7 +69,7 @@ class ResponseController {
       message: msg,
       status: status,
       code: code,
-      data: data
+      data: data,
     });
   }
 
@@ -79,7 +79,7 @@ class ResponseController {
       message: data + " " + msg,
       status: status,
       code: code,
-      data: data
+      data: data,
     });
   }
 
@@ -88,13 +88,13 @@ class ResponseController {
     data = {},
     msg = "unAuthorized",
     status = false,
-    code = 419
+    code = 419,
   }) {
     return this.res.send({
       message: msg,
       status: status,
       code: code,
-      data: data
+      data: data,
     });
   }
 
@@ -104,7 +104,7 @@ class ResponseController {
       message: msg,
       status: status,
       code: code,
-      data: data
+      data: data,
     });
   }
 
@@ -114,7 +114,7 @@ class ResponseController {
       message: msg,
       status: status,
       code: code,
-      data: data
+      data: data,
     });
   }
 
@@ -123,15 +123,17 @@ class ResponseController {
     data = {},
     msg = "something wrong",
     status = false,
-    code = 500
+    code = 500,
+    error,
   }) {
+    console.log(error.message);
     return this.res.send({
       message: msg,
       status: status,
       code: code,
-      data: data
+      data: data,
     });
   }
 }
 
-module.exports = res => new ResponseController(res);
+module.exports = (res) => new ResponseController(res);
