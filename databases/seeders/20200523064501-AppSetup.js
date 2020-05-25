@@ -13,9 +13,7 @@ module.exports = {
         role: 1,
       },
     ];
-    queryInterface.bulkInsert("user", adminData, {});
-
-    
+    return queryInterface.bulkInsert("user", adminData, {});
   },
 
   down: (queryInterface, Sequelize) => {

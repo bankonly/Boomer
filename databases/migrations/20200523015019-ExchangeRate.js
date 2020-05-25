@@ -1,5 +1,5 @@
 "use strict";
-
+const tableName = "exchangeRate";
 const fillable = (Sequelize) => {
   return {
     id: {
@@ -47,4 +47,5 @@ module.exports = {
 
   down: (queryInterface, Sequelize) => queryInterface.dropTable("exchangeRate"),
   fillable: (Sequelize) => fillable(Sequelize),
+  tableName: tableName,
 };
