@@ -62,11 +62,12 @@ class UserController extends Controller {
         phoneNumber: this.body.phoneNumber,
         password: this.body.password,
         confirmPassword: this.body.confirmPassword,
+        mail: this.body.mail,
       };
 
       const isValidate = UserProvider.validateResgisterObj(body);
       if (isValidate.code !== 200) {
-        response = tisValidate;
+        response = isValidate;
       } else {
         response = await UserProvider.register(body);
       }

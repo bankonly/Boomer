@@ -3,6 +3,8 @@ const Res = require("../Controllers/DefaultResponseController");
 const Bcrypt = require("../Helpers/Bcrypt");
 const Jwt = require("../Helpers/Jwt");
 const CONSTANT = require("../../app_config/constants");
+const MailProvider = require("../Providers/MailProvider");
+const { sequelize } = require("../../app_config/database");
 
 class UserProvider {
   validateResgisterObj(registerData) {
@@ -10,6 +12,7 @@ class UserProvider {
     if (!registerData.phoneNumber) msg = "phoneNumber is requried";
     else if (!registerData.password) msg = "password is requried";
     else if (!registerData.confirmPassword) msg = "confirmPassword is requried";
+    else if (!registerData.mail) msg = "mail is requried";
     else if (registerData.password !== registerData.confirmPassword)
       msg = "Password is not matched";
 
@@ -24,7 +27,8 @@ class UserProvider {
    * @returns
    * @memberof UserProvider
    */
-  async register({ phoneNumber, password, confirmPassword }) {
+  async register({ phoneNumber, mail, password, confirmPassword }) {
+    var userId = null;
     try {
       const isPhoneNumber = await UserClass.findByPhoneNumber(phoneNumber);
 
@@ -33,27 +37,32 @@ class UserProvider {
         return Res.duplicated({ data: phoneNumber });
       }
 
+      const isEmail = await UserClass.findByEmail(mail);
+      if (isEmail !== null) {
+        return Res.duplicated({ data: mail });
+      }
+
       const hashPwd = await Bcrypt.hashPassword(password);
       if (!hashPwd) return Res.error({});
 
       const insertData = {
         phoneNumber: phoneNumber,
+        mail: mail,
         password: hashPwd,
         loginTime: 1,
       };
       const createUser = await User.create(insertData);
+      userId = createUser.id;
       if (createUser) {
-        const token = Jwt.jwtMethod(UserClass.tokenObject(createUser));
-
-        return Res.success({
-          msg: "Register Success",
-          data: {
-            token: token,
-          },
+        const sendMail = await MailProvider.send({
+          to: mail,
+          text: " FUCKER VONG ",
         });
+        return Res.success({});
       }
       return Res.error({});
     } catch (error) {
+      (await User.findByPk(userId)).destroy();
       return Res.somethingWrong({ error: error });
     }
   }
@@ -100,7 +109,8 @@ class UserProvider {
 
   validateLoginObj(loginObject) {
     let msg = null;
-    if (!loginObject.author) msg = "author is requried,{name,phoneNumber.Email}";
+    if (!loginObject.author)
+      msg = "author is requried,{name,phoneNumber.Email}";
     else if (!loginObject.password) msg = "password is requried";
 
     if (msg !== null) return Res.badRequest({ msg: msg });
