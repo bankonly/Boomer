@@ -34,7 +34,7 @@ try {
       if (err) console.log(log.red(err));
       else {
         data = data.replace(/Middlewarename/g, fileName);
-        fs.writeFile(`${WRITEPATH}${fileName}.${FILETYPE}`, data, err => {
+        fs.writeFile(`${WRITEPATH}${fileName}.${FILETYPE}`, data, (err) => {
           if (err) console.log(log.red(err));
           console.log(
             log.green(`${METHOD.toLowerCase()}: ${fileName} created`)
@@ -45,6 +45,4 @@ try {
   };
 
   CREATE();
-} catch (error) {
-  
-}
+} catch (error) {}

@@ -11,6 +11,7 @@ module.exports = {
         password: await BcryptHelper.hashPassword("123123123"),
         phoneNumber: "8562052750365",
         role: 1,
+        isActive:1
       },
     ];
     return queryInterface.bulkInsert("user", adminData, {});

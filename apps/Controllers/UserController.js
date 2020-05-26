@@ -13,6 +13,7 @@ class UserController extends Controller {
         role: this.body.role,
         limit: CONSTANT.fetchLimit,
         authRole: this.req.auth.role,
+        isActive:this.body.isActive
       });
     } catch (err) {
       response = Res.somethingWrong({ error: err });

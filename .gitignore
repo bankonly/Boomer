@@ -3,3 +3,4 @@ node_modules
 package-lock.json
 databases/config/config.json
 public/images/*
+storages/log.txt

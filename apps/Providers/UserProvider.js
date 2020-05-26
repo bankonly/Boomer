@@ -151,7 +151,7 @@ class UserProvider {
     }
   }
 
-  async getUser({ role, limit, authRole }) {
+  async getUser({ role, limit, authRole,isActive = [1] }) {
     try {
       /* if user role is 1 then role requried */
       if (authRole == 1) {
@@ -168,6 +168,7 @@ class UserProvider {
       const userData = await UserClass.fetchAll({
         role: role,
         limit: limit,
+        isActive:isActive
       });
 
       return Res.success({ data: userData });

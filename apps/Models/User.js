@@ -5,8 +5,11 @@ const {
 } = require("../../databases/migrations/20200523014755-User");
 const Model = Sequelize.Model;
 class User extends Model {
-  async findByUserId(userId) {
-    return User.findByPk(userId);
+  async findByUserId(userId, isActive = [1]) {
+    return User.findOne({
+      where: { id: userId },
+      isActive: { [Sequelize.Op.in]: isActive },
+    });
   }
 
   removeObjecj(object) {
@@ -18,7 +21,7 @@ class User extends Model {
     return object;
   }
 
-  async findByNameOrPhoneOrEmail(nameOrPhone) {
+  async findByNameOrPhoneOrEmail(nameOrPhone, isActive = [0]) {
     return User.findOne({
       where: {
         [Sequelize.Op.or]: [
@@ -30,9 +33,12 @@ class User extends Model {
     });
   }
 
-  async findByPhoneNumber(phoneNumber) {
+  async findByPhoneNumber(phoneNumber, isActive = [1]) {
     return User.findOne({
-      where: { phoneNumber: phoneNumber },
+      where: {
+        phoneNumber: phoneNumber,
+        isActive: { [Sequelize.Op.in]: isActive },
+      },
     });
   }
 
@@ -47,6 +53,7 @@ class User extends Model {
   async findByEmail(email) {
     return User.findOne({
       where: { email: email },
+      isActive: { [Sequelize.Op.in]: isActive },
     });
   }
 
@@ -54,10 +61,14 @@ class User extends Model {
     remove = ["password", "role"],
     role = [0, 1],
     limit = 300,
+    isActive = [1],
   }) {
     return User.findAll({
       attributes: { exclude: remove },
-      where: { role: { [Sequelize.Op.in]: role } },
+      where: {
+        role: { [Sequelize.Op.in]: role },
+        isActive: { [Sequelize.Op.in]: isActive },
+      },
       limit: limit,
     });
   }

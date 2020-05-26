@@ -47,6 +47,12 @@ const fillable = (Sequelize) => {
       type: Sequelize.INTEGER,
       allowNull: false,
     },
+    isActive: {
+      type: Sequelize.INTEGER(1),
+      allowNull: false,
+      defaultValue: 0,
+      comment: "0 = inactive ,1 active",
+    },
     createdAt: {
       type: Sequelize.DATE,
       allowNull: true,
