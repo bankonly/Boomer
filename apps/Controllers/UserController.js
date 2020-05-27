@@ -87,11 +87,13 @@ class UserController extends Controller {
   // @PUT REQUEST
   async update() {
     const isUpdated = await UserProvider.update(this.req);
+    log(this.req, isUpdated,"log.json","db");
     this.response(isUpdated);
   }
 
   delete() {
     const id = this.params.id;
+    // log(this.req, response);
     this.response({});
   }
 }

@@ -21,7 +21,7 @@ class User extends Model {
     return object;
   }
 
-  async findByNameOrPhoneOrEmail(nameOrPhone, isActive = [0]) {
+  async findByNameOrPhoneOrEmail(nameOrPhone, isActive = [1]) {
     return User.findOne({
       where: {
         [Sequelize.Op.or]: [
@@ -50,7 +50,7 @@ class User extends Model {
     };
   }
 
-  async findByEmail(email) {
+  async findByEmail(email,isActive = [1]) {
     return User.findOne({
       where: { email: email },
       isActive: { [Sequelize.Op.in]: isActive },

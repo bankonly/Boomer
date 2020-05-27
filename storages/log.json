@@ -1,0 +1,382 @@
+[
+  {
+    "requestUrl": "/admin/me",
+    "requestMethod": "GET",
+    "requestBody": {},
+    "requestParam": {},
+    "requestIp": "::ffff:127.0.0.1",
+    "responseCode": 200,
+    "responseMessage": "success",
+    "responseBody": {
+      "id": 1,
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "avatar": null,
+      "phoneNumber": "8562052750365",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com",
+      "loginTime": 3,
+      "isActive": 1
+    },
+    "responseStatus": true,
+    "authorId": 1,
+    "who": 1
+  },
+  {
+    "requestUrl": "/admin/me",
+    "requestMethod": "GET",
+    "requestBody": {},
+    "requestParam": {},
+    "requestIp": "::ffff:127.0.0.1",
+    "responseCode": 200,
+    "responseMessage": "success",
+    "responseBody": {
+      "id": 1,
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "avatar": null,
+      "phoneNumber": "8562052750365",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com",
+      "loginTime": 3,
+      "isActive": 1
+    },
+    "responseStatus": true,
+    "authorId": 1,
+    "who": 1
+  },
+  {
+    "requestUrl": "/admin/me",
+    "requestMethod": "GET",
+    "requestBody": {},
+    "requestParam": {},
+    "requestIp": "::ffff:127.0.0.1",
+    "responseCode": 200,
+    "responseMessage": "success",
+    "responseBody": {
+      "id": 1,
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "avatar": null,
+      "phoneNumber": "8562052750365",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com",
+      "loginTime": 3,
+      "isActive": 1
+    },
+    "responseStatus": true,
+    "authorId": 1,
+    "who": 1
+  },
+  {
+    "requestUrl": "/admin/getAllUser",
+    "requestMethod": "GET",
+    "requestBody": { "role": [1, 0], "isActive": [0] },
+    "requestParam": {},
+    "requestIp": "::ffff:127.0.0.1",
+    "responseCode": 200,
+    "responseMessage": "success",
+    "responseBody": [],
+    "responseStatus": true,
+    "authorId": 1,
+    "who": 1
+  },
+  {
+    "requestUrl": "/admin/updateProfile",
+    "requestMethod": "PUT",
+    "requestBody": {
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com"
+    },
+    "requestParam": {},
+    "requestIp": "::ffff:127.0.0.1",
+    "responseCode": 200,
+    "responseMessage": "success",
+    "responseBody": {
+      "id": 1,
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "avatar": null,
+      "phoneNumber": "8562052750365",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com",
+      "loginTime": 3,
+      "isActive": 1
+    },
+    "responseStatus": true,
+    "authorId": 1,
+    "who": 1
+  },
+  {
+    "requestUrl": "/admin/me",
+    "requestMethod": "GET",
+    "requestBody": {},
+    "requestParam": {},
+    "requestIp": "::ffff:127.0.0.1",
+    "responseCode": 200,
+    "responseMessage": "success",
+    "responseBody": {
+      "id": 1,
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "avatar": null,
+      "phoneNumber": "8562052750365",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com",
+      "loginTime": 3,
+      "isActive": 1
+    },
+    "responseStatus": true,
+    "authorId": 1,
+    "who": 1
+  },
+  {
+    "requestUrl": "/admin/updateProfile",
+    "requestMethod": "PUT",
+    "requestBody": {
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com"
+    },
+    "requestParam": {},
+    "requestIp": "::ffff:127.0.0.1",
+    "responseCode": 200,
+    "responseMessage": "success",
+    "responseBody": {
+      "id": 1,
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "avatar": null,
+      "phoneNumber": "8562052750365",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com",
+      "loginTime": 3,
+      "isActive": 1
+    },
+    "responseStatus": true,
+    "authorId": 1,
+    "who": 1
+  },
+  {
+    "requestUrl": "/admin/me",
+    "requestMethod": "GET",
+    "requestBody": {},
+    "requestParam": {},
+    "requestIp": "::ffff:127.0.0.1",
+    "responseCode": 200,
+    "responseMessage": "success",
+    "responseBody": {
+      "id": 1,
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "avatar": null,
+      "phoneNumber": "8562052750365",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com",
+      "loginTime": 3,
+      "isActive": 1
+    },
+    "responseStatus": true,
+    "authorId": 1,
+    "who": 1
+  },
+  {
+    "requestUrl": "/admin/updateProfile",
+    "requestMethod": "PUT",
+    "requestBody": {
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com"
+    },
+    "requestParam": {},
+    "requestIp": "::ffff:127.0.0.1",
+    "responseCode": 200,
+    "responseMessage": "success",
+    "responseBody": {
+      "id": 1,
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "avatar": null,
+      "phoneNumber": "8562052750365",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com",
+      "loginTime": 3,
+      "isActive": 1
+    },
+    "responseStatus": true,
+    "authorId": 1,
+    "who": 1
+  },
+  {
+    "requestUrl": "/admin/updateProfile",
+    "requestMethod": "PUT",
+    "requestBody": {
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com"
+    },
+    "requestParam": {},
+    "requestIp": "::ffff:127.0.0.1",
+    "responseCode": 200,
+    "responseMessage": "success",
+    "responseBody": {
+      "id": 1,
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "avatar": null,
+      "phoneNumber": "8562052750365",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com",
+      "loginTime": 3,
+      "isActive": 1
+    },
+    "responseStatus": true,
+    "authorId": 1,
+    "who": 1
+  },
+  {
+    "requestUrl": "/admin/updateProfile",
+    "requestMethod": "PUT",
+    "requestBody": {
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com"
+    },
+    "requestParam": {},
+    "requestIp": "::ffff:127.0.0.1",
+    "responseCode": 200,
+    "responseMessage": "success",
+    "responseBody": {
+      "id": 1,
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "avatar": null,
+      "phoneNumber": "8562052750365",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com",
+      "loginTime": 3,
+      "isActive": 1
+    },
+    "responseStatus": true,
+    "authorId": 1,
+    "who": 1
+  },
+  {
+    "requestUrl": "/admin/updateProfile",
+    "requestMethod": "PUT",
+    "requestBody": {
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com"
+    },
+    "requestParam": {},
+    "requestIp": "::ffff:127.0.0.1",
+    "responseCode": 200,
+    "responseMessage": "success",
+    "responseBody": {
+      "id": 1,
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "avatar": null,
+      "phoneNumber": "8562052750365",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com",
+      "loginTime": 3,
+      "isActive": 1
+    },
+    "responseStatus": true,
+    "authorId": 1,
+    "who": 1
+  },
+  {
+    "requestUrl": "/admin/updateProfile",
+    "requestMethod": "PUT",
+    "requestBody": {
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com"
+    },
+    "requestParam": {},
+    "requestIp": "::ffff:127.0.0.1",
+    "responseCode": 200,
+    "responseMessage": "success",
+    "responseBody": {
+      "id": 1,
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "avatar": null,
+      "phoneNumber": "8562052750365",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com",
+      "loginTime": 3,
+      "isActive": 1
+    },
+    "responseStatus": true,
+    "authorId": 1,
+    "who": 1
+  },
+  {
+    "requestUrl": "/admin/updateProfile",
+    "requestMethod": "PUT",
+    "requestBody": {
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com"
+    },
+    "requestParam": {},
+    "requestIp": "::ffff:127.0.0.1",
+    "responseCode": 200,
+    "responseMessage": "success",
+    "responseBody": {
+      "id": 1,
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "avatar": null,
+      "phoneNumber": "8562052750365",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com",
+      "loginTime": 3,
+      "isActive": 1
+    },
+    "responseStatus": true,
+    "authorId": 1,
+    "who": 1
+  },
+  {
+    "requestUrl": "/admin/updateProfile",
+    "requestMethod": "PUT",
+    "requestBody": {
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com"
+    },
+    "requestParam": {},
+    "requestIp": "::ffff:127.0.0.1",
+    "responseCode": 200,
+    "responseMessage": "success",
+    "responseBody": {
+      "id": 1,
+      "firstName": "bank",
+      "lastName": "xaixompool",
+      "avatar": null,
+      "phoneNumber": "8562052750365",
+      "identityCard": "52648145",
+      "email": "banktnk121@gmail.com",
+      "loginTime": 3,
+      "isActive": 1
+    },
+    "responseStatus": true,
+    "authorId": 1,
+    "who": 1
+  }
+]
