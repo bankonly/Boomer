@@ -56,7 +56,7 @@ class ActivityLogProvider {
       ];
 
       if (method == "db") {
-        ActivityLog.create(saveData);
+        ActivityLog.create(saveData[0]);
         return;
       }
       const readPath = CONSTANT.READ_STORAGE_PATH + fileName;
