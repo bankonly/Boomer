@@ -134,6 +134,7 @@ class ResponseController {
       data: data,
     });
   }
+
 }
 
 module.exports = (res) => new ResponseController(res);

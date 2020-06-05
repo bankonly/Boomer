@@ -1,177 +1,219 @@
-const { UserClass, User } = require("../Models/User");
 const Res = require("../Controllers/DefaultResponseController");
+const { User, UserQB } = require("../Models/User");
 const Bcrypt = require("../Helpers/Bcrypt");
 const Jwt = require("../Helpers/Jwt");
-const CONSTANT = require("../../app_config/constants");
-const MailProvider = require("../Providers/MailProvider");
-const { sequelize } = require("../../app_config/database");
+const Helper = require("../Helpers/Global");
 
 class UserProvider {
-  validateResgisterObj(registerData) {
+  // get all user from database
+  async getAllUser() {
+    try {
+      const unSelectedColumn = "-password -__v";
+      const userData = await User.find().select(unSelectedColumn);
+      return Res.success({ data: userData });
+    } catch (error) {
+      return Res.somethingWrong({ error: error });
+    }
+  }
+
+  //validate login
+  validateLoginObj({ author, password }) {
     var msg = null;
-    if (!registerData.phoneNumber) msg = "phoneNumber is requried";
-    else if (!registerData.password) msg = "password is requried";
-    else if (!registerData.confirmPassword) msg = "confirmPassword is requried";
-    else if (!registerData.mail) msg = "mail is requried";
-    else if (registerData.password !== registerData.confirmPassword)
-      msg = "Password is not matched";
+    if (!author) msg = "author is required";
+    else if (!password) msg = "password is required";
 
     if (msg !== null) return Res.badRequest({ msg: msg });
     return Res.success({});
   }
 
-  /**
-   *
-   *
-   * @param {*} { phoneNumber, password, confirmPassword }
-   * @returns
-   * @memberof UserProvider
-   */
-  async register({ phoneNumber, mail, password, confirmPassword }) {
-    var userId = null;
+  // validate input
+  validateUpdateObj({ phoneNumber, name, age, mail }) {
+    var msg = null;
+    if (!phoneNumber) msg = "phoneNUmber is required";
+    else if (!name) msg = "name is required";
+    else if (!age) msg = "age is required";
+    else if (!mail) msg = "mail is required";
+
+    if (msg !== null) return Res.badRequest({ msg: msg });
+    return Res.success({});
+  }
+
+  // validate input
+  validateRegisterObj({ phoneNumber, password, confirmPassword, mail }) {
+    var msg = null;
+    if (!phoneNumber) msg = "phoneNUmber is required";
+    else if (!password) msg = "password is required";
+    else if (!confirmPassword) msg = "confirmPassword is required";
+    else if (!mail) msg = "mail is required";
+    else if (password !== confirmPassword) msg = "password not matced";
+
+    if (msg !== null) return Res.badRequest({ msg: msg });
+    return Res.success({});
+  }
+
+  // register new user
+  async register({ phoneNumber, password, confirmPassword, mail }) {
     try {
-      const isPhoneNumber = await UserClass.findByPhoneNumber(phoneNumber);
-
-      // Check if PhoneNumber is already exist in database
-      if (isPhoneNumber !== null) {
-        return Res.duplicated({ data: phoneNumber });
+      /* Check phone number is already exist or not */
+      const isPhoneNumberExist = await UserQB.findByPhoneNumber({
+        phoneNumber: phoneNumber
+      });
+      if (isPhoneNumberExist !== null) {
+        return Res.duplicated({ msg: "this phone number already exist" });
       }
 
-      const isEmail = await UserClass.findByEmail(mail);
-      if (isEmail !== null) {
-        return Res.duplicated({ data: mail });
+      /* Check emakl is already exist or not */
+      const isEmailExist = await UserQB.findByEmail({ email: mail });
+      if (isEmailExist !== null) {
+        return Res.duplicated({ msg: "this email already exist" });
       }
 
-      const hashPwd = await Bcrypt.hashPassword(password);
-      if (!hashPwd) return Res.error({});
+      // hash password
+      password = await Bcrypt.hashPassword(password);
 
-      const insertData = {
-        phoneNumber: phoneNumber,
-        mail: mail,
-        password: hashPwd,
-        loginTime: 1,
+      /* build save data */
+      const saveData = {
+        contact: {
+          phoneNumber,
+          email: mail
+        },
+        password
       };
-      const createUser = await User.create(insertData);
-      userId = createUser.id;
-      if (createUser) {
-        const sendMail = await MailProvider.send({
-          to: mail,
-          text: " FUCKER VONG ",
-        });
-        return Res.success({});
-      }
-      return Res.error({});
+
+      /* save to database */
+      const saveUserInDb = await User.create(saveData);
+      if (saveUserInDb) {
+        // if data is saved then return with success
+        const responseData = {
+          phoneNumber: saveUserInDb.contact.phoneNumber,
+          email: saveUserInDb.contact.email,
+          userId: saveUserInDb._id
+        };
+        return Res.success({ data: responseData, msg: "account created" });
+      } // if not
+      return Res.badRequest({ msg: "can not save data" });
     } catch (error) {
-      (await User.findByPk(userId)).destroy();
       return Res.somethingWrong({ error: error });
     }
   }
 
-  validateUpdateObj(updateObject) {
-    if (!updateObject.email) {
-      return Res.badRequest({
-        msg: "Email is requried",
-      });
-    }
-    if (!updateObject.identityCard) {
-      return Res.badRequest({
-        msg: "IdentityCard is requried",
-      });
-    }
-    return Res.success({});
-  }
-
-  async update(req) {
-    var body = req.body;
-    var auth = req.auth;
-
+  // register new user
+  async update({ phoneNumber, name, age, mail, userId }) {
     try {
-      const isValidate = this.validateUpdateObj(body);
-      if (isValidate.code !== 200) return isValidate;
-
-      const isUser = await UserClass.findByUserId(auth.userId);
-      if (isUser == null) return Res.notFound({});
-
-      const isEmail = await UserClass.findByEmail(body.email);
-      if (isEmail !== null && isUser.email !== body.email) {
-        return Res.duplicated({});
+      if (!Helper.invalidObjectId(userId)) {
+        return Res.notFound({ msg: "invalid userId" });
+      }
+      /* check user id */
+      const userData = await User.findById(userId).select("-password -__v");
+      if (userData == null) {
+        return Res.notFound({ msg: "user id not found" });
       }
 
-      if (isUser.update(body)) {
-        const response = UserClass.removeObjecj(isUser.dataValues);
-        return Res.success({ data: response });
+      /* Check phone number is already exist or not */
+      const isPhoneNumberExist = await UserQB.findByPhoneNumber({
+        phoneNumber: phoneNumber
+      });
+      if (isPhoneNumberExist !== null) {
+        return Res.duplicated({ msg: "this phone number already exist" });
       }
-      return Res.outPut({ msg: "nothing update" });
+
+      /* Check emakl is already exist or not */
+      const isEmailExist = await UserQB.findByEmail({ email: mail });
+      if (isEmailExist !== null) {
+        return Res.duplicated({ msg: "this email already exist" });
+      }
+      // update Data
+      userData.contact.phoneNumber = phoneNumber;
+      userData.contact.email = mail;
+      userData.name = name;
+      userData.age = age;
+
+      /* update to database */
+      if (userData.save()) {
+        // if data is updated then return with success
+        return Res.success({ data: userData });
+      } // if not
+      return Res.badRequest({ msg: "can not save data" });
     } catch (error) {
       return Res.somethingWrong({ error: error });
     }
   }
 
-  validateLoginObj(loginObject) {
-    let msg = null;
-    if (!loginObject.author)
-      msg = "author is requried,{name,phoneNumber.Email}";
-    else if (!loginObject.password) msg = "password is requried";
-
-    if (msg !== null) return Res.badRequest({ msg: msg });
-    return Res.success({});
+  // delete user by id
+  async delete(userId) {
+    try {
+      if (!Helper.invalidObjectId(userId)) {
+        return Res.notFound({ msg: "invalid userId" });
+      }
+      /* check user id */
+      const userData = await User.findByIdAndDelete(userId);
+      if (!userData) {
+        return Res.notFound({ msg: "user id not found" });
+      }
+      return Res.deleted({});
+    } catch (error) {
+      return Res.somethingWrong({ error: error });
+    }
   }
 
-  async getAuth({ userId }) {
-    const userData = await UserClass.findByUserId(userId);
-    if (userData == null) return Res.notFound({});
-    const response = UserClass.removeObjecj(userData.dataValues);
-    return Res.success({ data: response });
+  // get user by id
+  async getUser(userId) {
+    try {
+      if (!Helper.invalidObjectId(userId)) {
+        return Res.notFound({ msg: "invalid userId" });
+      }
+      /* check user id */
+      const userData = await User.findById(userId).select("-password -__v");
+      if (userData == null) {
+        return Res.notFound({ msg: "user id not found" });
+      }
+      return Res.success({ data: userData });
+    } catch (error) {
+      return Res.somethingWrong({ error: error });
+    }
   }
 
+  // login
   async login({ author, password }) {
     try {
-      const isPhoneNumber = await UserClass.findByNameOrPhoneOrEmail(author);
-      if (isPhoneNumber == null) {
-        return Res.notFound({
-          data: author,
-          msg: "author notfound",
-        });
-      }
-
-      const isPwdVerify = await Bcrypt.verifyPassword(
-        password,
-        isPhoneNumber.password
-      );
-
-      if (!isPwdVerify) return Res.badRequest({ msg: "Incorrect Password" });
-
-      isPhoneNumber.update({ loginTime: (isPhoneNumber.loginTime += 1) });
-      const tokenObj = UserClass.tokenObject(isPhoneNumber.dataValues);
-      const token = Jwt.jwtMethod(tokenObj);
-
-      return Res.success({ data: { token: token }, msg: "Login Success" });
-    } catch (error) {
-      return Res.somethingWrong({ error: error });
-    }
-  }
-
-  async getUser({ role, limit, authRole,isActive = [1] }) {
-    try {
-      /* if user role is 1 then role requried */
-      if (authRole == 1) {
-        var msg = null;
-        if (!role) msg = "Role is requried";
-        else if (!Array.isArray(role)) msg = "role should be valid array";
-
-        if (msg !== null) return Res.badRequest({ msg: msg });
-        role = role;
-      } else {
-        /* normal user */
-        role = CONSTANT.userRole.split(",");
-      }
-      const userData = await UserClass.fetchAll({
-        role: role,
-        limit: limit,
-        isActive:isActive
+      var loginAuthor = null;
+      const loginViaPhone = await UserQB.findByPhoneNumber({
+        phoneNumber: author
       });
+      const loginViaEmail = await UserQB.findByEmail({ email: author });
 
-      return Res.success({ data: userData });
+      if (loginViaEmail == null && loginViaPhone == null) {
+        return Res.badRequest({ msg: "invalid author name" });
+      }
+
+      // if login by phone is null then use email
+      if (loginViaPhone == null) loginAuthor = loginViaEmail;
+      else loginAuthor = loginViaPhone;
+
+      // check password
+      if (!Bcrypt.verifyPassword(password, loginAuthor.password)) {
+        return Res.badRequest({ msg: "password incorrect" });
+      }
+
+      // count login time when user generate new token ,old token will not work
+      const loginCount = loginAuthor.loginCount + 1;
+
+      loginAuthor.loginCount = loginCount
+      loginAuthor.save()
+
+      // prepare payload data
+      const payload = {
+        userId: loginAuthor._id,
+        loginTime: loginCount
+      };
+
+      // get token
+      const response = Jwt.jwtMethodWithPassport(payload, process.env.TOKEN_LIFE_TIME);
+      return Res.success({
+        data: {
+          token: response
+        }
+      });
     } catch (error) {
       return Res.somethingWrong({ error: error });
     }

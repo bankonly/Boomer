@@ -1,100 +1,115 @@
 const Controller = require("./Controller");
-const Res = require("./DefaultResponseController");
-const UserProvider = require("../Providers/UserProvider");
-const { UserClass, User } = require("../Models/User");
 const CONSTANT = require("../../app_config/constants");
 const { log } = require("../Providers/ActivityLogProvider");
+const UserProvider = require('../Providers/UserProvider')
+const {User,UserQB} = require('../Models/User')
 
 class UserController extends Controller {
-  async getUser() {
-    var response = Res.success({});
-    try {
-      response = await UserProvider.getUser({
-        role: this.body.role,
-        limit: CONSTANT.fetchLimit,
-        authRole: this.req.auth.role,
-        isActive:this.body.isActive
-      });
-    } catch (err) {
-      response = Res.somethingWrong({ error: err });
-    }
-    log(this.req, response);
-    return this.response(response);
-  }
 
-  async whoami() {
-    var response = Res.success({});
+  async get() {
     try {
-      response = await UserProvider.getAuth({
-        userId: this.req.auth.userId,
-      });
+      const userData = await UserProvider.getAllUser()
+      this.response(userData);
     } catch (err) {
-      response = Res.somethingWrong({ error: err });
+      this.responseError({ error:error });
     }
-    log(this.req, response);
-    return this.response(response);
   }
 
   async login() {
-    var response = Res.success({});
     try {
-      const body = {
-        author: this.req.body.author,
-        password: this.req.body.password,
-      };
-
-      const isValidate = UserProvider.validateLoginObj(body);
-      if (isValidate.code !== 200) {
-        response = isValidate;
-      } else {
-        response = await UserProvider.login(body);
+      const loginInput = {
+        author:this.body.author,
+        password:this.body.password
       }
+
+      // validate login data
+      const isValidate = UserProvider.validateLoginObj(loginInput)
+      if(isValidate.code !== 200) return this.response(isValidate)
+
+      const loginData = await UserProvider.login(loginInput)
+      this.response(loginData);
     } catch (err) {
-      response = Res.somethingWrong({ error: err });
+      this.responseError({ error:error });
     }
-    log(this.req, response);
-    return this.response(response);
   }
 
+
+  // create new user
   async register() {
-    var response = Res.success({});
     try {
-      const body = {
-        phoneNumber: this.body.phoneNumber,
-        password: this.body.password,
-        confirmPassword: this.body.confirmPassword,
-        mail: this.body.mail,
-      };
-
-      const isValidate = UserProvider.validateResgisterObj(body);
-      if (isValidate.code !== 200) {
-        response = isValidate;
-      } else {
-        response = await UserProvider.register(body);
+      // preapre save data
+      const data = {
+        phoneNumber:this.body.phoneNumber,
+        password:this.body.password,
+        confirmPassword:this.body.confirmPassword,
+        mail:this.body.mail,
       }
+
+      // validate
+      const isValidate = UserProvider.validateRegisterObj(data)
+      if(isValidate.code !== 200) return this.response(isValidate)
+
+      const newUser = await UserProvider.register(data)
+      return this.response(newUser)
     } catch (err) {
-      response = Res.somethingWrong({ error: err });
+      this.responseError({ error:error });
     }
-    log(this.req, response);
-    return this.response(response);
   }
 
-  getWithParam() {
-    const id = this.params.id;
-    this.response(`GET/${id} REQUEST`);
+
+  // get user by id
+  async getWithParam() {
+    try {
+      const userData = await UserProvider.getUser(this.params.userId)
+      this.response(userData);
+    } catch (err) {
+      this.responseError({ error:error });
+    }
   }
 
-  // @PUT REQUEST
+
+  // update user
   async update() {
-    const isUpdated = await UserProvider.update(this.req);
-    log(this.req, isUpdated,"log.json","db");
-    this.response(isUpdated);
+    try {
+       // preapre save data
+       const data = {
+        phoneNumber:this.body.phoneNumber,
+        mail:this.body.mail,
+        name:this.body.name,
+        age:this.body.age,
+        userId:this.params.userId
+      }
+
+      // validate
+      const isValidate = UserProvider.validateUpdateObj(data)
+      if(isValidate.code !== 200) return this.response(isValidate)
+
+      const newUser = await UserProvider.update(data)
+      return this.response(newUser)
+    } catch (err) {
+      this.responseError({ error:error });
+    }
   }
 
-  delete() {
-    const id = this.params.id;
-    // log(this.req, response);
-    this.response({});
+
+  // delete user by userId
+  async delete() {
+    try {
+      const del = await UserProvider.delete(this.params.userId) 
+      this.response(del);
+    } catch (err) {
+      this.responseError({ error:error });
+    }
+  }
+
+  // whoami
+  async whoami(){
+    try {
+      this.response({data:this.req.user})
+    } catch (error) {
+      this.responseError({ error:error });
+      
+    }
   }
 }
 

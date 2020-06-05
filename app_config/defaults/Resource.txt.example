@@ -1,6 +1,0 @@
-const router = require("express").Router();
-// const ControllerName = require("../Controllers/ControllerName");
-
-// router.get("/", (...args) => ControllerName(...args).get());
-
-module.exports = router;

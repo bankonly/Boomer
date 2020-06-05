@@ -1,21 +1,21 @@
-const Sequelize = require("sequelize");
+const mongoose = require("mongoose");
 
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USERNAME,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    dialect: process.env.DB_DRIVER,
-    logging:false
-  }
-);
-sequelize
-  .authenticate()
-  .then(() => console.log("DATABASE CONNECTED"))
-  .catch(err => console.error("DATABASE CONNECTION ERROR:", err));
+const connectDatabase = () => {
+  const env = process.env;
+  mongoose
+    .connect(`${env.DB_DRIVER}://${env.DB_HOST}:${env.DB_PORT}/${env.DB_NAME}`, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    })
+    .catch(error => console.log(error.message))
+    .then(() => console.log("CONNECTED TO DB"));
+};
+try {
+  connectDatabase();
+} catch (error) {
+  console.log(error.message);
+}
 
 module.exports = {
-  sequelize,
-  Sequelize
+  mongoose
 };

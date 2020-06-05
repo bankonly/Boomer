@@ -188,6 +188,8 @@ class SimpleResponseController {
  */
 	somethingWrong({ data = {}, msg = 'something wrong', status = false, code = 500,error }) {
 		console.log(error.message)
+		console.log("---------------------------------------")
+		console.log(error)
 		return {
 			msg: msg,
 			status: status,

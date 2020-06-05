@@ -1,3 +1,5 @@
+const fs = require('fs')
+
 const CONSTANTS = {
   publicPath: "public",
   defaultImgPath: "./public/images/",
@@ -11,6 +13,8 @@ const CONSTANTS = {
   mailService: process.env.MAIL_SERVICE,
   READ_STORAGE_PATH: "./storages/",
   TYPE_WRITE: "utf-8",
+  PRIVATE_KEY:fs.readFileSync('./private.key','UTF-8'),
+  JWT_ALGORITHMS:process.env.JWT_ALGORITHMS
 };
 
 module.exports = CONSTANTS;

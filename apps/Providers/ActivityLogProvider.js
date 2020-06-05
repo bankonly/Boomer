@@ -3,7 +3,6 @@ const log = require("chalk");
 
 const Res = require("../Controllers/DefaultResponseController");
 const CONSTANT = require("../../app_config/constants");
-const { ActivityLog } = require("../Models/ActivityLog");
 
 class ActivityLogProvider {
   constructor() {
@@ -55,10 +54,10 @@ class ActivityLogProvider {
         },
       ];
 
-      if (method == "db") {
-        ActivityLog.create(saveData[0]);
-        return;
-      }
+      // if (method == "db") {
+      //   ActivityLog.create(saveData[0]);
+      //   return;
+      // }
       const readPath = CONSTANT.READ_STORAGE_PATH + fileName;
       if (!fs.existsSync(readPath)) {
         this.writeLogFile({ arrayData: saveData });

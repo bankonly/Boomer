@@ -8,7 +8,7 @@ class ControllerName extends Controller {
     try {
       this.response({});
     } catch (err) {
-      this.send.somethingWrong({ error:error });
+      this.responseError({ error:error });
     }
   }
 
@@ -17,7 +17,7 @@ class ControllerName extends Controller {
     try {
       this.response({});
     } catch (err) {
-      this.send.somethingWrong({ error:error });
+      this.responseError({ error:error });
     }
   }
 
@@ -27,7 +27,7 @@ class ControllerName extends Controller {
     try {
       this.response({});
     } catch (err) {
-      this.send.somethingWrong({ error:error });
+      this.responseError({ error:error });
     }
   }
 
@@ -37,7 +37,7 @@ class ControllerName extends Controller {
     try {
       this.response({});
     } catch (err) {
-      this.send.somethingWrong({ error:error });
+      this.responseError({ error:error });
     }
   }
 
@@ -47,7 +47,7 @@ class ControllerName extends Controller {
     try {
       this.response({});
     } catch (err) {
-      this.send.somethingWrong({ error:error });
+      this.responseError({ error:error });
     }
   }
 }

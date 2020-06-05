@@ -9,21 +9,19 @@ const READFILENAME = "Model.txt.example";
 const DECODETYPE = "utf8";
 
 try {
-  const params = process.argv[process.argv.length - 1].split(":");
-  if (params.length < 2) {
-    console.log(
-      log.red(
-        METHOD.toLowerCase() + `: please... correct command ${params}:{table}`
-      )
-    );
+  const params = process.argv[process.argv.length - 1]
+  if(!params.includes(':')){
+    console.log(log.red('Model: Make model shold be like Model:tableName'))
     return;
   }
-  var fileName = params[0];
-  const tableName = params[1];
-
+  
+  var tableName = params.split(':')
+  tableName = tableName[1].toLowerCase()
+  fileName = tableName
+  
   const commands = fileName.split("/");
 
-  if (commands.length > 1) {
+  if (commands.length > 1) {console.log(tableName)
     fileName = commands[1];
     // connect string to get correct path
     WRITEPATH = WRITEPATH.concat(commands[0] + "/");
@@ -40,11 +38,12 @@ try {
   }
 
   const CREATE = () => {
+
+
     fs.readFile(READPATH + READFILENAME, DECODETYPE, (err, data) => {
       if (err) console.log(log.red(err));
       else {
-        data = data.replace(/DefineModelName/g, fileName);
-        data = data.replace(/ModelName/g, tableName);
+        data = data.replace(/tablenameMigration/g, fileName);
         fs.writeFile(`${WRITEPATH}${fileName}.${FILETYPE}`, data, err => {
           if (err) console.log(log.red(err));
           console.log(

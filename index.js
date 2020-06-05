@@ -2,15 +2,17 @@ const express = require("express");
 const app = express();
 const router = require("express").Router();
 const log = require("chalk");
-
+const passport = require('passport')
 
 /* LOAD ALL DEFAULT CONFIGURATIONS */
 require("./app_config/start_up_config");
+require("./app_config/passport")(passport);
 require("./app_config/app")(app);
 
 /* FILE IMPORTED Store Midlleares and config for route */
 const kernel = require("./apps/kernel");
 
+require('./app_config/database')
 
 /* LOAD IMAGE PATH */
 app.use("/public", express.static(__dirname + "/public"));

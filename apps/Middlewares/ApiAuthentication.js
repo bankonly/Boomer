@@ -1,33 +1,28 @@
-const Res = require("../Controllers/ResponseController");
-const Jwt = require("jsonwebtoken");
-const { UserClass } = require("../Models/User");
+const {UserQB,User} =require('../Models/User')
+const Res = require('../Controllers/ResponseController')
+const Helper = require('../Helpers/Global')
+const Jwt = require('jsonwebtoken')
+const CONSTANT = require('../../app_config/constants')
 
-const ApiAuthentication = async (req, res, next) => {
-  const send = Res(res);
-  try {
-    let token = req.headers.authorization.split(" ")[1];
-    const decoded = Jwt.verify(token, process.env.SECRET_KEY);
+module.exports = async (req,res,next) => {
+    try {
+        const authorization = req.headers.authorization
+        if(!authorization){
+            return Res(res).unAuthorized({})
+        }
 
-    /* Get USer Data */
-    const UserData = await UserClass.findByUserId(decoded.userId);
+        const decoded = Jwt.verify(authorization,process.env.SECRET_KEY)
+        const userData = await User.findById(decoded.userId).select('-password -__v')
+        if(userData == null){
+            return Res(res).unAuthorized({msg:"user might be deleted or banned"})
+        }
 
-    /* Check User Data exist */
-    if (UserClass == null) return send.unAuthorized({});
-    /* Check if login time match and role is 0 */
-    if (
-      UserData.dataValues.loginTime == decoded.loginTime &&
-      UserData.dataValues.role == 0
-    ) {
-      /* SET USER DATA */
-      req.auth = decoded;
-      req.auth.role = UserData.dataValues.role
-      return next();
+        if(userData.loginCount !== decoded.loginTime){
+            return Res(res).unAuthorized({})
+        }
+        req.auth = userData
+        return next();
+    } catch (error) {
+        return Res(res).unAuthorized({})
     }
-
-    return send.unAuthorized({});
-  } catch (error) {
-    return send.unAuthorized({});
-  }
-};
-
-module.exports = ApiAuthentication;
+}

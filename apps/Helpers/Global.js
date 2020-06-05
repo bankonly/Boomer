@@ -20,8 +20,14 @@ const use = (pathToFileName) => {
   };
 };
 
+const mongoose = require('mongoose')
+const invalidObjectId = (id) =>{
+  return mongoose.Types.ObjectId.isValid(id);
+}
+
 module.exports = {
   isFloat,
   isInt,
   use,
+  invalidObjectId
 };
