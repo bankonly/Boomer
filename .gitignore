@@ -4,3 +4,5 @@ package-lock.json
 databases/config/config.json
 public/images/*
 storages/log.txt
+private.key
+private.key.pub
